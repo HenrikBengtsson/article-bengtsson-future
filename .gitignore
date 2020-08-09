@@ -1,0 +1,12 @@
+*~
+*.aux
+*.bbl
+*.blg
+*.brf
+*.log
+*.out
+*.*/
+.Rhistory
+RJwrapper.pdf
+arxiv/
+arxiv.tar.gz
