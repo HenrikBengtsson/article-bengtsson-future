@@ -706,7 +706,7 @@ Special \dfn{infix operators} are available to specify arguments that
 otherwise would be passed to the \code{future()} function.  For
 example, to set \code{seed = TRUE}, we can use:
 \begin{example}
-v <- rnorm(3) %seed% TRUE
+v %<-% rnorm(3) %seed% TRUE
 \end{example}
 See \code{help("\%<-\%",\,package\,=\,"future")} for other infix
 operators.
