@@ -639,7 +639,7 @@ processing, the multiple-recursive generator L'Ecuyer-CMRG by
 used to set up multiple RNG streams.
 %
 The future ecosystem has built-in support for L'Ecuyer-CMRG at its
-core to make it as easy as possible to produce statistical sound and
+core to make it as easy as possible to produce statistically sound and
 reproducible random numbers regardless of how and where futures are
 resolved, e.g.
 \begin{example}
@@ -652,7 +652,7 @@ streams should be used.  When used, the result will be fully
 reproducible regardless of future backend specified and the number of
 workers available.  Because \code{seed\,=\,TRUE} can introduce
 significant overhead, the default is \code{seed\,=\,FALSE}.  However,
-since it is computational cheap to detect when a future expression
+since it is computationally cheap to detect when a future expression
 produced random numbers, the future framework will generate an
 informative warning when this is used by mistake to help lower the
 risk of producing statistically questionable results.  It is possible
@@ -1142,8 +1142,8 @@ using any type of future backend.
 
 Another prominent example is the \CRANpkg{shiny}~\citep{CRAN:shiny}
 package, which implements support for \dfn{asynchronous processing} in
-Shiny application via futures.  Asynchronous processing help
-preventing long-running tasks from blocking the user interface.
+Shiny application via futures.  Asynchronous processing helps to
+prevent long-running tasks from blocking the user interface.
 
 
 \subsection{Other uses of futures}
