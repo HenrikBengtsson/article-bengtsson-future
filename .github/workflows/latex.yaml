@@ -13,7 +13,6 @@ jobs:
         uses: dante-ev/latex-action@master
         with:
           root_file: RJwrapper.tex
-          working_directory: output/
           
       - name: Check PDF files
         run: |
@@ -23,6 +22,6 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: output
-          path: output
+          path: .
         if: always()
         
