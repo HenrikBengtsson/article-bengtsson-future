@@ -22,7 +22,7 @@ view: RJwrapper.pdf
 	evince RJwrapper.pdf &
 
 clean:
-	rm -f RJwrapper.pdf RJwrapper.aux RJwrapper.bbl RJwrapper.blg RJwrapper.brf RJwrapper.log RJwrapper.out
+	rm -f RJwrapper.pdf RJwrapper.aux RJwrapper.bbl RJwrapper.blg RJwrapper.brf RJwrapper.log RJwrapper.out RJwrapper.dvi RJwrapper.fdb_latexmk RJwrapper.fls
 	rm -rf arxiv
 
 spell:

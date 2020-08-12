@@ -1,0 +1,23 @@
+name: Compile LaTeX to PDF
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+      - name: Compile LaTeX document
+        uses: ./
+        with:
+          root_file: RJwrapper.tex
+          working_directory: output/
+      - name: Check PDF files
+        run: |
+          file test/RJwrapper.pdf | grep -q ' PDF '
+      - name: Upload
+        uses: actions/upload-artifact@master
+        with:
+          name: output
+          path: output
+        if: always()
+        
