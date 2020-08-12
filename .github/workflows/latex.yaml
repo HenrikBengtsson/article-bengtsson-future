@@ -16,7 +16,7 @@ jobs:
           
       - name: Check PDF files
         run: |
-          file test/RJwrapper.pdf | grep -q ' PDF '
+          file RJwrapper.pdf | grep -q ' PDF '
 
       - name: Upload
         uses: actions/upload-artifact@master
