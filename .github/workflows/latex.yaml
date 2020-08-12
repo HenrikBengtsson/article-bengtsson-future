@@ -1,19 +1,24 @@
 name: Compile LaTeX to PDF
 on: [push, pull_request]
 jobs:
-  test:
+  latex:
+    if: "! contains(github.event.head_commit.message, '[ci skip]')"    
+
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Set up Git repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+        
       - name: Compile LaTeX document
-        uses: ./
+        uses: dante-ev/latex-action@master
         with:
           root_file: RJwrapper.tex
           working_directory: output/
+          
       - name: Check PDF files
         run: |
           file test/RJwrapper.pdf | grep -q ' PDF '
+
       - name: Upload
         uses: actions/upload-artifact@master
         with:
