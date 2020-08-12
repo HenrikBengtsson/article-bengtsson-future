@@ -1,5 +1,5 @@
-![Spell checking status](https://github.com/HenrikBengtsson/article-bengtsson-future/workflows/Spelling/badge.svg?branch=develop)
-![LaTeX-to-PDF compile status](https://github.com/HenrikBengtsson/article-bengtsson-future/workflows/LaTeX/badge.svg?branch=develop)
+![Spell checking status](https://github.com/HenrikBengtsson/article-bengtsson-future/workflows/Spelling/badge.svg)
+![LaTeX-to-PDF compile status](https://github.com/HenrikBengtsson/article-bengtsson-future/workflows/LaTeX/badge.svg)
 
 # Article 'A Unifying Framework for Parallel and Distributed Processing in R using Futures'
 
