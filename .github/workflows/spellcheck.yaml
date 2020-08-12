@@ -1,7 +1,7 @@
 name: Spell Check LaTeX
 on: [push, pull_request]
 jobs:
-  latex:
+  aspell:
     if: "! contains(github.event.head_commit.message, '[ci skip]')"    
 
     runs-on: ubuntu-latest

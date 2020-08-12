@@ -1,7 +1,7 @@
 name: Compile LaTeX to PDF
 on: [push, pull_request]
 jobs:
-  latex:
+  latexmk:
     if: "! contains(github.event.head_commit.message, '[ci skip]')"    
 
     runs-on: ubuntu-latest
