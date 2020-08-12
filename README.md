@@ -1,3 +1,6 @@
+![Spell checking status](https://github.com/HenrikBengtsson/article-bengtsson-future/workflows/Spelling/badge.svg?branch=develop)
+![LaTeX-to-PDF compile status](https://github.com/HenrikBengtsson/article-bengtsson-future/workflows/LaTeX/badge.svg?branch=develop)
+
 # Article 'A Unifying Framework for Parallel and Distributed Processing in R using Futures'
 
 H. Bengtsson, A Unifying Framework for Parallel and Distributed Processing in R using Futures, [arXiv:2008.00553](https://arxiv.org/abs/2008.00553), 2020
@@ -9,6 +12,7 @@ Status: To be submitted
 Download: [PDF](https://arxiv.org/pdf/2008.00553.pdf)  
 Feedback: https://github.com/HenrikBengtsson/article-bengtsson-future/issues  
 Changelog: [CHANGELOG](https://github.com/HenrikBengtsson/article-bengtsson-future/blob/master/CHANGELOG.md)  
+
 
 
 Please cite this article when using the **[future]** package or the future framework as:

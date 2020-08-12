@@ -1,4 +1,4 @@
-name: Spell Check LaTeX
+name: Spelling
 on: [push, pull_request]
 jobs:
   aspell:

@@ -1,4 +1,4 @@
-name: Compile LaTeX to PDF
+name: LaTeX
 on: [push, pull_request]
 jobs:
   latexmk:
