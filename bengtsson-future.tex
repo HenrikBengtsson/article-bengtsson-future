@@ -42,10 +42,14 @@ The \pkg{parallel} package, part of R since version 2.14.0 (2011),
 provides a set of functions for calling functions and expression in
 parallel across one or more concurrent R processes. The most
 well-known functions for this are \code{mclapply()}
-and \code{parLapply()}, which mimic the behavior of the map-reduce
+and \code{parLapply()}, which mimic the behavior of the
+map-reduce\footnote{We use the term ``map-reduce'' as it is used in
+functional programming. The \dfn{MapReduce} method by
+\citet{DeanGhemawat2004} was inspired by this term but they are not
+equivalent.}
 function \code{lapply()} in the \pkg{base} package.  Here is an
-example showing them calling a ``slow'' function on each
-element in a vector using two parallel workers:
+example showing them calling a ``slow'' function on each element in a
+vector using two parallel workers:
 %
 \begin{example}
 xs <- 1:10
