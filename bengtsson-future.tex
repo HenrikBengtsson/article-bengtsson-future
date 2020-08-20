@@ -31,9 +31,11 @@ problems not addressed by other parallel frameworks in R.
 
 The \CRANpkg{future} package~\citep{CRAN:future} aims to provide a
 unifying, generic, minimal application protocol interface (API) to
-facilitate most types of parallel processing in R.  It builds upon the
-concepts of \dfn{futures} \citep{HewittBaker_1977} and
-\dfn{promises} \citep{FriedmanWise_1978, Hibbard_1976}.
+facilitate the most common types of parallel processing in R,
+especially the \dfn{manager-worker} strategy where an R process
+delegates tasks to other R processes. It builds upon the concepts
+of \dfn{futures} \citep{HewittBaker_1977}
+and \dfn{promises} \citep{FriedmanWise_1978, Hibbard_1976}.
 To better understand how it fits in among and relates to existing
 parallelization solutions in R, let us revisit the two most well-known
 solutions - packages \pkg{parallel} and \CRANpkg{foreach}.
