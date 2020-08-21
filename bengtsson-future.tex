@@ -444,21 +444,22 @@ handling is done.  Any \dfn{error} produced while resolving a future,
 that is, evaluating its expression, is captured and relayed as-is in
 the main R process each time
 \code{value()} is called.  This mimics the behavior of how errors
-are produced when not using futures.  For example, just like we get:
-\begin{example}
-x <- "24"
-v <- log(x)
-# Error in log(x) : non-numeric argument to mathematical function
-\end{example}
-without futures, we get:
+are produced when not using futures.  This is illustrated by the
+following two code examples -- with futures:
 \begin{example}
 x <- "24"
 f <- future(log(x))
 v <- value(f)
 # Error in log(x) : non-numeric argument to mathematical function
 \end{example}
-with futures.  Standard mechanisms for condition handling apply to
-these relayed errors.  For example, to assign a missing value
+and without futures:
+\begin{example}
+x <- "24"
+v <- log(x)
+# Error in log(x) : non-numeric argument to mathematical function
+\end{example}
+As a result, standard mechanisms for condition handling apply also to
+errors relayed by futures.  For example, to assign a missing value
 to \code{v} whenever there is an error, we can use:
 \begin{example}
 v <- tryCatch({
