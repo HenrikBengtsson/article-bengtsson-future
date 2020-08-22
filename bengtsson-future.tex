@@ -1232,7 +1232,14 @@ fs <- lapply(1:10, function(x) future({
 }, lazy = TRUE))
 \end{example}
 %
-A lazy future defers the evaluation of its expression until we
+A lazy future defers\footnote{Although a lazy future defers the
+evaluation to a later time, contrary to R's \dfn{lazy evaluation}
+and \dfn{promises}, a future records all dependent variables
+(``globals'') when it is created, which means it will resolve to the
+same value regardless of those globals change after the future was
+created and before it was resolved.  This also means that lazy and
+eager futures give the same value.}
+the evaluation of its expression until we
 use \code{resolved()} to query if it is resolved or until we
 use \code{value()} to collect its value.  Since neither has been
 called above, these futures are still dormant, regardless of future
