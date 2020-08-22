@@ -37,8 +37,12 @@ delegates tasks to other R processes. It builds upon the concepts
 of \dfn{futures} \citep{HewittBaker_1977}
 and \dfn{promises} \citep{FriedmanWise_1978, Hibbard_1976}.
 To better understand how it fits in among and relates to existing
-parallelization solutions in R, let us revisit the two most well-known
-solutions - packages \pkg{parallel} and \CRANpkg{foreach}.
+parallelization solutions in R\footnote{Although the concept of
+futures could also apply to native-code parallelization, the future
+framework targets parallelization at the R level.  For parallelization
+in C, C++, and Fortran, see \citet{Eddelbuettel2020}.}, let us revisit
+the two most well-known solutions - packages \pkg{parallel}
+and \CRANpkg{foreach}.
 
 The \pkg{parallel} package, part of R since version 2.14.0 (2011),
 provides a set of functions for calling functions and expression in
