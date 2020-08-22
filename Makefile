@@ -23,7 +23,7 @@ view: RJwrapper.pdf
 
 clean:
 	rm -f RJwrapper.pdf RJwrapper.aux RJwrapper.bbl RJwrapper.blg RJwrapper.brf RJwrapper.log RJwrapper.out RJwrapper.dvi RJwrapper.fdb_latexmk RJwrapper.fls
-	rm -rf arxiv
+	rm -rf arxiv arxiv.tar.gz
 
 spell:
 	hunspell -t "$(NAME).tex"
