@@ -1236,16 +1236,15 @@ fs <- lapply(1:10, function(x) future({
 }, lazy = TRUE))
 \end{example}
 %
-A lazy future defers\footnote{Although a lazy future defers the
-evaluation to a later time, contrary to R's \dfn{lazy evaluation}
-and \dfn{promises}, a future records all dependent variables
-(``globals'') when it is created, which means it will resolve to the
-same value regardless of those globals change after the future was
-created and before it was resolved.  This also means that lazy and
-eager futures give the same value.}
-the evaluation of its expression until we
+A lazy future defers the evaluation of its expression until we
 use \code{resolved()} to query if it is resolved or until we
-use \code{value()} to collect its value.  Since neither has been
+use \code{value()} to collect its value\footnote{Although a lazy
+future defers the evaluation to a later time, contrary to
+R's \dfn{lazy evaluation} and \dfn{promises}, a future records all
+dependent variables (``globals'') when it is created, which means it
+will resolve to the same value even if those globals change after the
+future was created and before it was resolved.  This also means that
+lazy and eager futures give the same value.}.  Since neither has been
 called above, these futures are still dormant, regardless of future
 backend used.  Next, assume that there are two parallel workers and
 imagine that we have a function \code{merge()} to merge futures.  This
@@ -1332,10 +1331,12 @@ same results regardless how and where they are processed.
  
 I am grateful to all users and developers who have contributed to the
 future framework with questions and answers, feature requests, bug
-reports, and interesting and fruitful discussions.  The development of
-the \dfn{Future API} Specifications and Conformance test suite in
-the \pkg{future.tests} package was supported by the R~Consortium
-through its Infrastructure Steering Committee (ISC) grant program.
+reports, and interesting and fruitful discussions.  I am thankful to
+everyone who gave comments and suggestions on how to improved this
+manuscript.  The development of the \dfn{Future API} Specifications
+and Conformance test suite in the \pkg{future.tests} package was
+supported by the R~Consortium through its Infrastructure Steering
+Committee (ISC) grant program.
 
 
 \bibliography{bengtsson-future}
