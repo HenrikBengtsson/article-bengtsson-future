@@ -1047,7 +1047,7 @@ none of the other parallel solutions provide.  This benefits the
 developer because they can focus on what to parallelize rather than
 how and where. It also benefits the end-user who will have more
 alternatives to how and where parallelization will take place.  For
-example, the developer might have local parallelization in mind during
+instance, the developer might have local parallelization in mind during
 the development phase due to their work-environment constraints
 whereas the end-user might be interested in parallelizing out to a
 cloud compute service.  One may say that code using futures scales far
@@ -1306,7 +1306,7 @@ Other than setting the backend via \code{plan()}, it is not possible
 to direct a particular future to a specific backend type based on the
 needs of the future.  To support this, we have to add options to
 declare what \dfn{resources} are needed to resolve particular future.
-For example,
+For instance,
 \begin{example}
 f <- future({ ... }, resources = c("r:3.2.*", "mount:/data", "!fork"))
 \end{example}
