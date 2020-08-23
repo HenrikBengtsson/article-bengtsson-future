@@ -51,4 +51,5 @@ arxiv.tar.gz: arxiv/arxiv-$(NAME).pdf
 
 # https://arxiv.org/help/submit_tex#wegotem
 $(NAME).tar.gz: RJwrapper.pdf
-	tar -czf "$@" RJwrapper.tex $(NAME).tex $(NAME).bib 
+	tar -czf "$@" RJwrapper.tex $(NAME).tex $(NAME).bib $(NAME).R
+

@@ -201,22 +201,22 @@ but may cause different outcomes of the same code. In the best case,
 these differences result in run-time errors, and in the worst case,
 different results. An example of the former is the difference
 between \pkg{doMC} on Unix-like systems and \pkg{doParallel} on
-Windows. Analogously to
-\code{mclapply()}, when using \pkg{doMC}, globals and packages are
-automatically taken care of by the process forking. In contrast, when
-using \pkg{doParallel} with SNOW clusters, globals and packages need
-to be identified and explicitly exported, via additional arguments
-\code{.export} and \code{.packages} to \code{foreach()}, to the parallel
-workers running in the background.  Thus, a developer that only
-uses \pkg{doMC} might forget to test their code with \pkg{doParallel},
-where it may fail.  Having said this, the \pkg{foreach} package does
-provide a rudimentary mechanism for automatically identifying and
-exporting global variables.  However, it has some limitations that in
-practice require the developer to explicitly specify globals to make
-sure their code works with more backends.  Some adaptors provide
-additional options of their own that are specified as arguments
-to \code{foreach()}. If the developer specifies such options, the
-\code{foreach()} call might not work with other adaptors.
+Windows. Analogously to \code{mclapply()}, when using \pkg{doMC},
+globals and packages are automatically taken care of by the process
+forking. In contrast, when using \pkg{doParallel} with SNOW clusters,
+globals and packages need to be identified and explicitly exported,
+via additional arguments \code{.export} and \code{.packages}
+to \code{foreach()}, to the parallel workers running in the
+background.  Thus, a developer that only uses \pkg{doMC} might forget
+to test their code with \pkg{doParallel}, where it may fail.  Having
+said this, the \pkg{foreach} package does provide a rudimentary
+mechanism for automatically identifying and exporting global
+variables.  However, it has some limitations that in practice require
+the developer to explicitly specify globals to make sure their code
+works with more backends.  Some adaptors provide additional options of
+their own that are specified as arguments to \code{foreach()}. If the
+developer specifies such options, the \code{foreach()} call might not
+work with other adaptors.
 
 To develop \code{foreach()} code invariant to the parallel backend
 chosen requires a good understanding of how the \pkg{foreach}
@@ -224,11 +224,12 @@ framework works and plenty of testing. This lack of strict behavior is
 unfortunate and might have grown out of a strategy of wanting to keep
 things flexible. On the upside, steps have recently\footnote{See
 the \pkg{foreach} issue tracker
-at \url{https://github.com/RevolutionAnalytics/foreach}.} been taken
-toward making the behavior more consistent across foreach backends,
-suggesting that it is possible to remove several of these weaknesses
-through a process of deprecating and removing unwanted side effects
-over several release cycles in close collaboration with developers.
+at \url{https://github.com/RevolutionAnalytics/foreach}.}
+been taken toward making the behavior more consistent across foreach
+backends, suggesting that it is possible to remove several of these
+weaknesses through a process of deprecating and removing unwanted side
+effects over several release cycles in close collaboration with
+developers.
 
 
 \section{The future framework}
@@ -362,12 +363,12 @@ Here, the first two futures are created in a non-blocking way because
 there are two workers available to resolve them.  However, when we
 attempt to create a third future, there are no more workers available.
 This causes
-\code{future()} to block until one of the workers is available, that is, until
-either one or both of the two futures have been resolved.  If three or
-more workers are set up, then the third \code{future()} call would not
-block.  On the other hand, if \code{plan(sequential)} is set, then
-each \code{future()} blocks until the previously created future has
-been resolved.
+\code{future()} to block until one of the workers is available, that is,
+until either one or both of the two futures have been resolved.  If
+three or more workers are set up, then the third \code{future()} call
+would not block.  On the other hand, if \code{plan(sequential)} is
+set, then each \code{future()} blocks until the previously created
+future has been resolved.
 %
 Finally, to retrieve the values of the three futures, we do:
 \begin{example}
@@ -401,7 +402,8 @@ for lists and other types of containers.}:
 vs <- lapply(fs, value)
 \end{example}
 %
-Alternatively to using a for-loop, we can parallelize using \code{lapply()}:
+Alternatively to using a for-loop, we can parallelize
+using \code{lapply()}:
 \begin{example}
 xs <- 1:10
 fs <- lapply(xs, function(x) {
@@ -422,22 +424,26 @@ and \code{foreach()}.  Indeed, we could re-implemented
 these \pkg{parallel} and \pkg{foreach} functions using the \dfn{Future
 API}.
 
-The \code{resolved()} function queries, in a non-blocking way, whether or not a future is
-resolved.  Among other things, this can be used to collect the value of a subset of resolved futures as soon as possible without risking to block from collecting the value of a non-resolved future, which allows additional futures to launch sooner, if they exist.
-This strategy also helps lower the overall latency
-that comes from the overhead of collecting values from futures -
-values that may contain large objects and are collected from remote
-machines over a network with limited bandwidth.  As explained further
-below, collecting the value of futures as soon as possible will also
-lower the latency of the relay of output and conditions (e.g.\
-warnings and errors) captured by each future while they evaluate the
-future expressions.
+The \code{resolved()} function queries, in a non-blocking way, whether
+or not a future is resolved.  Among other things, this can be used to
+collect the value of a subset of resolved futures as soon as possible
+without risking to block from collecting the value of a non-resolved
+future, which allows additional futures to launch sooner, if they
+exist.  This strategy also helps lower the overall latency that comes
+from the overhead of collecting values from futures - values that may
+contain large objects and are collected from remote machines over a
+network with limited bandwidth.  As explained further below,
+collecting the value of futures as soon as possible will also lower
+the latency of the relay of output and conditions (e.g.\ warnings and
+errors) captured by each future while they evaluate the future
+expressions.
 
 In summary, the three constructs of the \dfn{Future API} provide
-\emph{the necessary and sufficient} functionality to construct higher-level
-map-reduce constructs for evaluating expressions and function calls in
-parallel.  Additional core features of futures that are useful, or
-even essential, for parallel processing, are presented next.
+\emph{the necessary and sufficient} functionality to construct
+higher-level map-reduce constructs for evaluating expressions and
+function calls in parallel.  Additional core features of futures that
+are useful, or even essential, for parallel processing, are presented
+next.
 
 
 \subsection{Exception handling}
@@ -448,10 +454,9 @@ mimic the behavior of the corresponding code that does not use
 futures.  An important part of this design aim is how exception
 handling is done.  Any \dfn{error} produced while resolving a future,
 that is, evaluating its expression, is captured and relayed as-is in
-the main R process each time
-\code{value()} is called.  This mimics the behavior of how errors
-are produced when not using futures.  This is illustrated by the
-following two code examples -- with futures:
+the main R process each time \code{value()} is called.  This mimics
+the behavior of how errors are produced when not using futures.  This
+is illustrated by the following two code examples -- with futures:
 \begin{example}
 x <- "24"
 f <- future(log(x))
@@ -479,8 +484,8 @@ Errors due to extraordinary circumstances, such as terminated R
 workers and failed communication, are of a different kind than above
 evaluation errors.  Because of this, they are signaled as errors of
 class \dfn{FutureError} so they can be handled specifically, e.g.\ by
-restarting R workers or relaunching the failed future elsewhere (Section `Future
-Work').
+restarting R workers or relaunching the failed future elsewhere
+(Section `Future Work').
 
 
 \subsection{Relaying of standard output and conditions (e.g.\ messages and warnings)}
@@ -491,11 +496,11 @@ in the main R process each time \code{value()} is called. Analogously,
 all conditions are captured and relayed as-is in the main R process
 each time \code{value()} is called. Common conditions relayed this way
 are \dfn{message}s and \dfn{warning}s as generated by \code{message()}
-and \code{warning()}.
-The relaying of errors was discussed in the previous section.
-Relaying of standard output and conditions respects the order they
-were captured except that all of the standard output is relayed before
-conditions are relayed in the order they were signaled. For example,
+and \code{warning()}.  The relaying of errors was discussed in the
+previous section.  Relaying of standard output and conditions respects
+the order they were captured except that all of the standard output is
+relayed before conditions are relayed in the order they were
+signaled. For example,
 %
 \begin{example}
 x <- c(1:10, NA)
@@ -539,11 +544,11 @@ any troubleshooting. For example, existing verbose output helps narrow
 down the location of errors and warnings, which may reveal unexpected
 missing values or vector recycling. Commonly used poor-man debugging,
 where temporary debug messages are injected into the code, is also
-possible because of this built-in relay mechanism.
-Imagine a logging framework that leverages R's condition framework to
-signal different levels of log events and then captures and reports,
-e.g. to the terminal or to file.  It will work out of the box when
-parallelizing with futures.
+possible because of this built-in relay mechanism.  Imagine a logging
+framework that leverages R's condition framework to signal different
+levels of log events and then captures and reports, e.g. to the
+terminal or to file.  It will work out of the box when parallelizing
+with futures.
 
 Conditions of class \dfn{immediateCondition} are treated specially by
 the future framework. They are by design allowed to be relayed as soon
@@ -554,8 +559,8 @@ depending on the future backend used. Because of this,
 the order of other types of conditions captured. This makes them
 suitable for signaling, for instance, \emph{progress updates}.  Thus,
 such progress conditions can be used to update a progress bar in the
-terminal or in a Shiny application while originating from futures being resolve on
-remote machines.  See the \CRANpkg{progressr}
+terminal or in a Shiny application while originating from futures
+being resolve on remote machines.  See the \CRANpkg{progressr}
 package~\citep{CRAN:progressr} for an implementation of this.  Note,
 however, that this type of near-live relaying of
 \dfn{immediateCondition}:s only works for backends that have the means to
@@ -708,12 +713,16 @@ promise.  As soon as we try to use \code{v}, say,
 \begin{example}
 y <- sqrt(v) 
 \end{example}
-the associated promise will call \code{value()} on the underlying future, while possibly blocking, and at the end assign the collected result to \code{v}\footnote{The internal call to \code{value()} will also cause any captured standard output and conditions to be relayed.}.
-From there on, \code{v} is a regular value.  As an illustration, our
-introductory example with three futures can be written as\footnote{I
-have dropped the curly brackets on the RHS to make the example
-tidier. Just like with regular assignment, there is nothing preventing
-us from using composite expressions also with future assignments.}:
+the associated promise will call \code{value()} on the underlying
+future, while possibly blocking, and at the end assign the collected
+result to \code{v}\footnote{The internal call to \code{value()} will
+also cause any captured standard output and conditions to be
+relayed.}.  From there on, \code{v} is a regular value.  As an
+illustration, our introductory example with three futures can be
+written as\footnote{I have dropped the curly brackets on the RHS to
+make the example tidier. Just like with regular assignment, there is
+nothing preventing us from using composite expressions also with
+future assignments.}:
 \begin{example}
 xs <- 1:10
 v1 %<-% slow_fcn(xs[1])
@@ -791,10 +800,10 @@ This will run at most $2 \times 3 = 6$ tasks in parallel on the local
 machine.  Any nested parallelism beyond these two layers will be
 processed in sequential mode, that is, \code{plan(sequential)} is
 implicit if not specified.  When argument \code{workers} is not
-specified, it defaults to
-\code{availableCores()}, which respect a large number of environment variables
-and R options specifying the number of cores.  Because of this, and
-due to the built-in protection against nested parallelism, using
+specified, it defaults to \code{availableCores()}, which respect a
+large number of environment variables and R options specifying the
+number of cores.  Because of this, and due to the built-in protection
+against nested parallelism, using
 \code{plan(list(multisession,\,multisession))} effectively equals using
 \code{plan(list(multisession,\,sequential))}.
 
@@ -1015,17 +1024,17 @@ package, STAN models of the \CRANpkg{stan} package, and many
 more\footnote{See \pkg{future} package vignette
 \samp{Non-exportable object} for more examples.}.
 An indicator for an R object not being exportable is that it has an
-\dfn{external pointer} referencing an internal object created by native code.
-Unfortunately, it is not a sufficient indicator, because some objects
-with external pointers can be exported, e.g.\ \CRANpkg{data.table}
-objects.  This makes it complicated to automate the detection of
-non-exportable objects and protect against using them in parallel
-processing.  The current best practice is to be aware of these types
-of objects and to document new ones when discovered, which often
-happens when there is an unexpected run-time error.  To help
-troubleshooting, it is possible to configure the \pkg{future} package
-to scan for and warn about globals with external pointers whenever
-used in a future.
+\dfn{external pointer} referencing an internal object created by
+native code.  Unfortunately, it is not a sufficient indicator, because
+some objects with external pointers can be exported,
+e.g.\ \CRANpkg{data.table} objects.  This makes it complicated to
+automate the detection of non-exportable objects and protect against
+using them in parallel processing.  The current best practice is to be
+aware of these types of objects and to document new ones when
+discovered, which often happens when there is an unexpected run-time
+error.  To help troubleshooting, it is possible to configure
+the \pkg{future} package to scan for and warn about globals with
+external pointers whenever used in a future.
 
 
 \section{Results}
