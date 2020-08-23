@@ -481,7 +481,7 @@ Errors due to extraordinary circumstances, such as terminated R
 workers and failed communication, are of a different kind than above
 evaluation errors.  Because of this, they are signaled as errors of
 class \dfn{FutureError} so they can be handled specifically, e.g.\ by
-restarting R workers or relaunching the failed future (Section `Future
+restarting R workers or relaunching the failed future elsewhere (Section `Future
 Work').
 
 
@@ -551,7 +551,7 @@ depending on the future backend used. Because of this,
 the order of other types of conditions captured. This makes them
 suitable for signaling, for instance, \emph{progress updates}.  Thus,
 such progress conditions can be used to update a progress bar in the
-terminal or a Shiny application while resolving futures in parallel on
+terminal or in a Shiny application while originating from futures being resolve on
 remote machines.  See the \CRANpkg{progressr}
 package~\citep{CRAN:progressr} for an implementation of this.  Note,
 however, that this type of near-live relaying of
