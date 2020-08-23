@@ -500,15 +500,16 @@ conditions are relayed in the order they were signaled. For example,
 \begin{example}
 x <- c(1:10, NA)
 f <- future({
-  cat("Hello")
+  cat("Hello world\n")
   y <- sum(x, na.rm = TRUE)
   message("The sum of 'x' is ", y)
   if (anyNA(x)) warning("Missing values were omitted", call. = FALSE)
-  cat("world\n")
+  cat("Bye bye\n")
   y
 })
 v <- value(f)
 # Hello world
+# Bye bye
 # The sum of 'x' is 55
 # Warning message:
 # Missing values were omitted
@@ -525,7 +526,7 @@ stdout <- capture.output({
 # Missing values were omitted
 
 stdout
-# [1] "Hello world"
+# [1] "Hello world" "Bye bye"
 \end{example}
 %
 Similarly, \code{withCallingHandlers()} can be used to capture and
