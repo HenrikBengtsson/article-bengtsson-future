@@ -155,10 +155,10 @@ mechanism, other than possibly the number of cores to use.
 \label{map-reduce-parallelization-with-more-control-for-the-end-user}
 
 Possibly inspired by the snow-style clusters, the \pkg{foreach}
-package~\citep{CRAN:foreach}, first released in 2009, addresses the
-above problem of having to decide on the parallel design early on by
-letting the end-user - not the developer - ``register'' what type of
-parallel backend (``foreach adaptor'') to use when
+package~\citep{CRAN:foreach,Kane_etal_2013}, first released in 2009,
+addresses the above problem of having to decide on the parallel design
+early on by letting the end-user - not the developer - ``register''
+what type of parallel backend (``foreach adaptor'') to use when
 calling \code{foreach()}. For example, with
 \CRANpkg{doMC}~\citep{CRAN:doMC} one can register a multicore cluster and
 with \CRANpkg{doParallel}~\citep{CRAN:doParallel} one can register any
