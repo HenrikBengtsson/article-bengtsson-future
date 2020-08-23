@@ -708,7 +708,7 @@ promise.  As soon as we try to use \code{v}, say,
 \begin{example}
 y <- sqrt(v) 
 \end{example}
-the associated promise will call \code{value()}\footnote{The internal call to \code{value()} will also cause any captured standard output and conditions to be relayed.} call on the underlying future, and assign it to \code{v}.
+the associated promise will call \code{value()} on the underlying future, while possibly blocking, and at the end assign the collected result to \code{v}\footnote{The internal call to \code{value()} will also cause any captured standard output and conditions to be relayed.}.
 From there on, \code{v} is a regular value.  As an illustration, our
 introductory example with three futures can be written as\footnote{I
 have dropped the curly brackets on the RHS to make the example
