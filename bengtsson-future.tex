@@ -97,7 +97,7 @@ support, rely on a cluster of R background workers for
 parallelization. It works by the main R process and the workers
 communicate tasks and results over a communication channel. The
 default and most commonly used type of cluster is SOCK, which MS
-Windows also supports, communicate via \emph{socket connections}. Like
+Windows also supports, communicates via \emph{socket connections}. Like
 most other cluster types, SOCK clusters require developers to manually
 identify and export packages and global objects to the workers by
 calling \code{clusterEvalQ()} and
