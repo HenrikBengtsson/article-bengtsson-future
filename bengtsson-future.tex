@@ -1281,7 +1281,7 @@ design of the future framework keeps the added maintenance burden to a
 minimum.
 
 A frequently requested feature is to support \emph{suspending} running
-futures, e.g.\ \code{suspend(f)}.  Since not all backends may support
+futures.  For example, above \code{future\_either()} function could benefit from a \code{suspend()} function to terminate futures no longer needed.  Since not all backends may support
 this, extra care needs to be taken when introducing this feature to
 the future framework.  A related feature request is the possibility
 to \emph{restart} a future that failed due to, for instance, a crashed
