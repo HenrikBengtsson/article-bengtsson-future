@@ -47,3 +47,8 @@ arxiv/arxiv-$(NAME).pdf: arxiv/arxiv-$(NAME).tex
 # https://arxiv.org/help/submit_tex#wegotem
 arxiv.tar.gz: arxiv/arxiv-$(NAME).pdf
 	tar -czf "$@" arxiv/arxiv-$(NAME).tex arxiv/arxiv-$(NAME).bbl arxiv/RJournal.sty
+
+
+# https://arxiv.org/help/submit_tex#wegotem
+$(NAME).tar.gz: RJwrapper.pdf
+	tar -czf "$@" RJwrapper.tex $(NAME).tex $(NAME).bib 
