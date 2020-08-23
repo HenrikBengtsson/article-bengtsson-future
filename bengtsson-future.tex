@@ -281,15 +281,15 @@ tasks in-between the step that evaluates the expression and the step
 that assigns its value to the target variable.
 %
 Here is an example that creates a future that calculates
-\code{slow\_fcn(x)} with \code{x} being \code{1}, then re-assigns \code{x}
-to have the value of \code{log(2)}, and finally gets the value of the
+\code{slow\_fcn(x)} with \code{x} being \code{1}, then re-assigns
+a different value to \code{x}, and finally gets the value of the
 future expression:
 \begin{example}
 x <- 1
 f <- future({
   slow_fcn(x)
 })
-x <- log(2)
+x <- 2
 v <- value(f)
 \end{example}
 By definition, a future consists of an R expression and any required
