@@ -701,8 +701,11 @@ defined by the \CRANpkg{promises}~\citep{CRAN:promises} package,
 which, together with futures, is used for asynchronous processing in
 Shiny applications.}.  Because the LHS is a promise, the value of the
 future will not be assigned to it until we attempt to access the
-promise.  As soon as we try to use \code{v}, the associate promise
-will call \code{value()} on the future, and assign it to \code{v}.
+promise.  As soon as we try to use \code{v}, say,
+\begin{example}
+y <- sqrt(v) 
+\end{example}
+the associated promise will call \code{value()}\footnote{The internal call to \code{value()} will also cause any captured standard output and conditions to be relayed.} call on the underlying future, and assign it to \code{v}.
 From there on, \code{v} is a regular value.  As an illustration, our
 introductory example with three futures can be written as\footnote{I
 have dropped the curly brackets on the RHS to make the example
