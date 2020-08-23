@@ -1062,7 +1062,7 @@ parallelized on the local computer, could suddenly parallelize across
 thousands of cores on high-performance compute (HPC) clusters via the
 job scheduler.  All it took was to change the \code{plan()}.
 
-Another advantage of the future ecosystem is that it is
+Because the future ecosystem is \dfn{sequential consistent}, it is
 straightforward to update, or port, an existing, sequential,
 map-reduce framework such that it can run in parallel. Not having to
 worry about low-level parallelization code, which otherwise risks
