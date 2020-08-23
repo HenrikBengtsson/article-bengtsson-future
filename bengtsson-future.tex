@@ -308,12 +308,16 @@ which corresponds to setting:
 \begin{example}
 plan(sequential)
 \end{example}
-Before we continue, it should be emphasized that \emph{the future
-ecosystem is designed to separate the responsibilities of the
-developer from those of the end-user}.  This allows the developer to
-focus on the code to be parallelized while the end-user focuses on how
-to parallelize.  It is the end-user who decides on the \code{plan()}.
-For example, if they specify:
+Before we continue, it should be emphasized that the \dfn{Future API}
+is designed for \dfn{sequential consistency}~\citep{Lamport1979} - no
+matter how and where futures are resolved, may it be in parallel, the
+parallel code produce the same results as the counter-part sequential
+code.  As a consequence, \emph{the future ecosystem is designed to
+separate the responsibilities of the developer from those of the
+end-user}.  This allows the developer to focus on the code to be
+parallelized while the end-user focuses on how to parallelize.  It is
+the end-user who decides on the \code{plan()}.  For example, if they
+specify:
 \begin{example}
 plan(multisession)
 \end{example}
