@@ -539,6 +539,10 @@ down the location of errors and warnings, which may reveal unexpected
 missing values or vector recycling. Commonly used poor-man debugging,
 where temporary debug messages are injected into the code, is also
 possible because of this built-in relay mechanism.
+Imagine a logging framework that leverages R's condition framework to
+signal different levels of log events and then captures and reports,
+e.g. to the terminal or to file.  It will work out of the box when
+parallelizing with futures.
 
 Conditions of class \dfn{immediateCondition} are treated specially by
 the future framework. They are by design allowed to be relayed as soon
