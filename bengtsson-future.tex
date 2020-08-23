@@ -422,8 +422,8 @@ and \code{foreach()}.  Indeed, we could re-implemented
 these \pkg{parallel} and \pkg{foreach} functions using the \dfn{Future
 API}.
 
-The \code{resolved()} function queries a future whether or not it is
-resolved in a non-blocking way.  Among other things, this can be used
+The \code{resolved()} function queries, in a non-blocking way, whether or not a future is
+resolved.  Among other things, this can be used
 to collect the value of a subset of resolved futures as soon as
 possible without risking to block from collecting the value of a
 non-resolved future.  This strategy helps lower the overall latency
