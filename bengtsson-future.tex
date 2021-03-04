@@ -183,7 +183,7 @@ on
 focus on \emph{what} to parallelize, which is a design pattern of
 great value with important implications on how to design, write, and
 maintain parallel code. The large uptake of \pkg{foreach} since it was
-first released supports this. As of July 2020, there are over 700
+first released supports this. As of March 2021, there are over 780
 packages on CRAN and Bioconductor that directly depend on
 \pkg{foreach}. Another advantage of the separation between the
 map-reduce frontend API and parallel backend (foreach adaptors) is
@@ -943,8 +943,8 @@ CI), an on R-hub.
 
 Second, for each new release, these packages undergo full
 reverse-package dependency checks
-using \pkg{revdepcheck}~\citep{GitHub:revdepcheck}.  As of July 2020,
-the \pkg{future} package is tested against 129 direct reverse-package
+using \pkg{revdepcheck}~\citep{GitHub:revdepcheck}.  As of March 2021,
+the \pkg{future} package is tested against 143 direct reverse-package
 dependencies available on CRAN and Bioconductor.  These checks are
 performed on Linux with both the default settings and when forcing
 tests to use multisession workers (SOCK clusters), which further
@@ -1156,11 +1156,11 @@ the cause of the observed problems.
 \label{use-of-the-future-framework}
 
 The \pkg{future} package was released on CRAN in 2015. The uptake has
-grown steadily ever since.  As of July 2020, there are 129 packages on
+grown steadily ever since.  As of March 2021, there are 135 packages on
 CRAN and Bioconductor that directly depend on the \pkg{future}
 package.  For map-reduce parallelization packages \pkg{future.apply}
 and
-\pkg{furrr}, the corresponding number of packages are 61 and 35,
+\pkg{furrr}, the corresponding number of packages are 71 and 40,
 respectively.
 
 Besides supporting these traditional parallelization methods, the
