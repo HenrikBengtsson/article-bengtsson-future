@@ -825,8 +825,8 @@ job.
 \subsection{Future backends}
 \label{future-backends}
 
-In addition to implementing the \dfn{Future API}, the \pkg{future}
-also implements a set of future backends that are based on
+In addition to implementing the \dfn{Future API}, the \pkg{future} package
+implements also a set of future backends that are based on
 the \pkg{parallel} package.  If no backend is specified, the default
 is:
 \begin{example}
@@ -1070,7 +1070,7 @@ maintainers to update their code to take advantage of new types of
 computational resources; updates that otherwise require adding another
 argument and conditional statement.  One example of this
 was \pkg{future.batchtools}' predecessor
-\CRANpkg{future.BatchJobs}, which was straightforward to implement on top
+\CRANpkg{future.BatchJobs} (legacy, archived), which was straightforward to implement on top of
 \CRANpkg{BatchJobs}~\citep{Bischl_etal_2015} as soon as the \dfn{Future API}
 was available.  With zero modifications, code that previously only
 parallelized on the local computer, could suddenly parallelize across
