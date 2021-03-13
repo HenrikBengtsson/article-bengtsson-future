@@ -886,8 +886,16 @@ backends.
 %
 For example, the \CRANpkg{future.callr}
 package~\citep{CRAN:future.callr} implements a future backend that
-resolves futures in parallel on the local machine via R processes,
-orchestrated by the \CRANpkg{callr}~\citep{CRAN:callr} package, e.g.
+resolves futures in parallel on the local machine via R
+processes\footnote{The callr backend performs similarly to the
+PSOCK-based multisession backend. However, in contrast to the latter,
+it does not rely on socket connections, which on MS Windows may
+require administrative rights on the machine's firewall in order to
+allow the R process to communicate on certain ports. Moreover, on
+machines with a large number of cores, PSOCK clusters are limited to
+125 parallel workers, because that is the maximum number of
+connections R can have open simulatenously.}, orchestrated by
+the \CRANpkg{callr}~\citep{CRAN:callr} package, e.g.
 \begin{example}
 plan(future.callr::callr)  ## defaults to workers = availableCores()
 plan(future.callr::callr, workers = 4)
