@@ -1147,9 +1147,10 @@ workers in other parallel frameworks.  Defaulting to using all
 available cores this way often wreak havoc on multi-tenant compute
 systems by overusing already consumed CPU resources, sometimes
 bringing the system to a halt due to too much context switching and
-memory use.  This type of misbehavior results in other users
-suffering, and system administrators having to spend time figuring out
-the cause of the observed problems.
+memory use.  Unfortunately, this often resulting in a negative
+performance on also other users' processes, and system administrators
+having to spend time on tracking down the root cause of such poorly
+performing compute hosts.
 
 
 \subsection{Use of the future framework on CRAN and Bioconductor}
