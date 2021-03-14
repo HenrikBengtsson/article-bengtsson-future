@@ -380,6 +380,29 @@ Although it is common to call \code{value()} on the futures in the
 order we created them, we can collect the values in any order, which
 is something we will return to later.
 
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.7\linewidth]{figures/future-lapply-4workers}
+    \caption{An illustration of parallel processing using futures via
+    four R processes running in the background.  Base R
+    \code{lapply()} is used to call \code{slow\_fcn()} ten times -
+    once per element in \code{xs}.  By calling it via \code{future()},
+    each call is distributed out to one of four workers.  If all
+    workers are busy, the next future in turn will wait for a worker
+    to become available.  The results of all futures are collected at
+    the end.  Any output, warnings, and errors produced on the workers
+    are relayed as-is back on the main R session.  The four workers
+    were created using \code{plan(multisession, workers = 4)}.  If
+    switching to \code{plan(sequential)}, then all futures are
+    resolved sequentially in the main R process.
+    Only core Future API functions from the \pkg{future} package were
+    used.  Less verbose map-reduce alternatives are available in
+    high-level future packages such as \pkg{future.apply},
+    \pkg{furrr}, and \pkg{doFuture}.}
+    \label{figure:future-4workers}
+  \end{center}
+\end{figure}
+
 Continuing, we can generalize the above to
 calculate \code{slow\_fcn()} on each of the element in \code{xs} via
 futures. For this we can use a regular for-loop to create each of
@@ -411,18 +434,21 @@ fs <- lapply(xs, function(x) {
 })
 \end{example}
 %
+This is illustrated in Figure~\ref{figure:future-4workers} where four
+background workers created by \code{plan(multisession, workers = 4)}
+is used to resolve the futures.
+%
 The same idea applies also to other types of map-reduce functions.
-This illustrates how powerful the \dfn{Future API} is; by combining
-base R with the two constructs \code{future()} and \code{value()}, we
-have created rudimentary\footnote{These solutions process each element
-in a separate future, which is suboptimal if the overhead of creating
-a future is relatively large compared to the evaluation time. This
+This shows how powerful the \dfn{Future API} is; by combining base R
+with the two constructs \code{future()} and \code{value()}, we have
+created rudimentary\footnote{These solutions process each element in a
+separate future, which is suboptimal if the overhead of creating a
+future is relatively large compared to the evaluation time. This
 overhead can be mitigated by processing elements in chunks, something
 that requires more complex code than what is shown in these examples.}
-alternatives to \code{mclapply()}, \code{parLapply()},
-and \code{foreach()}.  Indeed, we could re-implemented
-these \pkg{parallel} and \pkg{foreach} functions using the \dfn{Future
-API}.
+alternatives to \code{mclapply()}, \code{parLapply()}, and
+\code{foreach()}.  Indeed, we could re-implemented these
+\pkg{parallel} and \pkg{foreach} functions using the \dfn{Future API}.
 
 The \code{resolved()} function queries, in a non-blocking way, whether
 or not a future is resolved.  Among other things, this can be used to

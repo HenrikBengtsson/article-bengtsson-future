@@ -7,7 +7,7 @@ log-report: RJwrapper.log
 	@echo "** LaTeX Warnings and Errors **"
 	@grep --color=always -iE ".*(LaTeX (Error|Warning):|Warning: Citation .* undefined).*" $< || true
 
-RJwrapper.pdf: RJwrapper.tex RJournal.sty $(NAME).tex $(NAME).bib
+RJwrapper.pdf: RJwrapper.tex figures/*.pdf RJournal.sty $(NAME).tex $(NAME).bib
 	@Rscript -e "tools:::texi2pdf('RJwrapper.tex')"
 	@make log-report
 

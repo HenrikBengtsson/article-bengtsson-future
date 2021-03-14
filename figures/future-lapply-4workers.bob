@@ -1,0 +1,31 @@
+
+ .-----------------------.                     .-----------------------. 
+ | PARALLEL R WORKER #1  |                     | PARALLEL R WORKER #2  | 
+ |                       |                     |                       | 
+ |  1. "slow_fcn(xs[1])" |                     |  2. "slow_fcn(xs[2])" | 
+ |  5. "slow_fcn(xs[5])" |                     |  6. "slow_fcn(xs[6])" | 
+ |  9. "slow_fcn(xs[9])" |                     | 10. "slow_fcn(xs[10])"| 
+ '-----------------------'                     '-----------------------' 
+ instructions  ^ \   results (value,                   ^ /
+ (expression,   \ \  stdout, messages,   instructions / / results
+ globals, pkgs)  \ v warnings, errors)               / v
+                .---------------------------------------.
+                |             MAIN R PROCESS            |
+                |                                       |
+                |   "xs <- 1:10"                        |
+                |   "fs <- lapply(xs, function(x) {"    |
+                |     "future(slow_fcn(x))"             |
+                |   "})"                                |
+                |   "vs <- lapply(fs, value)"           |
+                '---------------------------------------'
+                 / ^                                 \ ^
+   instructions / / results              instructions \ \ results
+               v /                                     v \
+ .-----------------------.                     .-----------------------. 
+ | PARALLEL R WORKER #4  |                     | PARALLEL R WORKER #3  | 
+ |                       |                     |                       | 
+ |  4. "slow_fcn(xs[4])" |                     |  3. "slow_fcn(xs[3])" | 
+ |  8. "slow_fcn(xs[8])" |                     |  7. "slow_fcn(xs[7])" | 
+ |                       |                     |                       | 
+ '-----------------------'                     '-----------------------' 
+
