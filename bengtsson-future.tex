@@ -1008,9 +1008,19 @@ ecosystem at large.
 
 \subsection{Known limitations}
 
-Some types of objects are by design bound to the R session where they
-are created and cannot be exported to other R processes.  One example
-of non-exportable objects is R \dfn{connection}s, e.g.
+When saving an R object to file, or sending it to a parallel worker, R
+uses a built-in technique called \dfn{serialization}, which allows a
+complex object structure to be sent as a stream of bytes to its
+destination, so it later can be reconstructed
+via \dfn{unserialization}.  This is ability is fundamental to all
+parallel processing, the exception being shared-memory strategies such
+as forked parallel processing.  For example, this is how future
+expression and variables are sent to parallel workers and how results
+are returned.
+
+However, some types of objects are by design bound to the R session
+where they are created and cannot be used as-is in other R processes.
+One example is R \dfn{connection}s, e.g.
 \begin{example}
 con <- file("/path/to/file", open = "wb")
 str(con)
@@ -1018,23 +1028,23 @@ str(con)
 #  - attr(*, "conn_id")=<externalptr> 
 \end{example}
 Any attempt to use a connection in another R process, for instance, by
-saving it to file, restarting R, and loading it back in, or by
-exporting it to a parallel worker, will at best produce a run-time
-error, and in the worst case, produce invalid results or, for
-instance, write to the wrong file.  These constraints apply to all
-types of parallelization frameworks in R, including the future
-framework.
+saving it to file, restarting R, and loading it back in, or by sending
+it to a parallel worker, will at best produce a run-time error, and in
+the worst case, produce invalid results or, for instance, write to the
+wrong file.  These constraints apply to all types of parallelization
+frameworks in R, including the future framework.
 
-There are other types of objects that cannot be exported, many from
-popular third-party packages, e.g.\ database connections of
-the \CRANpkg{DBI} package, XML documents of the \CRANpkg{xml2}
-package, STAN models of the \CRANpkg{stan} package, and many
-more\footnote{See \pkg{future} package vignette
+There are other types of objects that cannot be transfered as-is to
+external processes, many from popular third-party packages, e.g.\
+database connections of the \CRANpkg{DBI} package, XML documents of
+the \CRANpkg{xml2} package, STAN models of the \CRANpkg{stan} package,
+and many more\footnote{See \pkg{future} package vignette
 \samp{Non-exportable object} for more examples.}.
-An indicator for an R object not being exportable is that it has an
-\dfn{external pointer} referencing an internal object created by
-native code.  Unfortunately, it is not a sufficient indicator, because
-some objects with external pointers can be exported,
+An indicator of this is when an R object has an \dfn{external
+pointer}, which is used for referencing an internal low-level
+object. This suggests that the object is bound to the current process
+and its lifespan.  Unfortunately, it is not a sufficient indicator,
+because some objects with external pointers can be exported,
 e.g.\ \CRANpkg{data.table} objects.  This makes it complicated to
 automate the detection of non-exportable objects and protect against
 using them in parallel processing.  The current best practice is to be
