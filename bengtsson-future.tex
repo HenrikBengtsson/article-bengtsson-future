@@ -800,12 +800,12 @@ This will run at most $2 \times 3 = 6$ tasks in parallel on the local
 machine.  Any nested parallelism beyond these two layers will be
 processed in sequential mode, that is, \code{plan(sequential)} is
 implicit if not specified.  When argument \code{workers} is not
-specified, it defaults to \code{availableCores()}, which respect a
-large number of environment variables and R options specifying the
-number of cores.  Because of this, and due to the built-in protection
-against nested parallelism, using
-\code{plan(list(multisession,\,multisession))} effectively equals using
-\code{plan(list(multisession,\,sequential))}.
+specified, it defaults to \code{parallelly::availableCores()}, which
+respect a large number of environment variables and R options
+specifying the number of cores.  Because of this, and due to the
+built-in protection against nested parallelism, using
+\code{plan(list(multisession,\linebreak[0]\,multisession))} effectively equals using
+\code{plan(list(multisession,\linebreak[0]\,sequential))}.
 
 A more common scenario of nested parallelism is when we submit tasks
 to a job scheduler on a compute cluster where each job is allowed to
@@ -865,15 +865,16 @@ plan(cluster, workers = c("n1.remote.org", "n2.remote.org"))
 \end{example}
 which is short for:
 \begin{example}
-workers <- future::makeClusterPSOCK(c("n1.remote.org", "n2.remote.org"))
+workers <- parallelly::makeClusterPSOCK(c("n1.remote.org", "n2.remote.org"))
 plan(cluster, workers = workers)
 \end{example}
 This works as long as there is password-less SSH access to these
-remote machines and they have R installed.  Also, contrary to when
-using \code{parallel::makePSOCKcluster()}, \code{makeClusterPSOCK()}
-uses reverse-tunneling techniques, which avoids having to configure
-inward-facing port-forwarding in firewalls, something that require
-administrative rights.
+remote machines and they have R installed.  Contrary to
+\code{parallel::makePSOCKcluster()},
+\code{parallelly::makeClusterPSOCK()} uses reverse-tunneling
+techniques, which avoids having to configure inward-facing
+port-forwarding in firewalls, something that requires administrative
+rights.
 
 
 \subsubsection{Third-party future backends}
@@ -925,10 +926,13 @@ on the Google~Compute~Engine platform.
 The future framework is platform-independent and works on all
 platforms, including Linux, Solaris, macOS, and MS Windows.  It is
 backward compatible with older versions of R back to R 3.1.2 (October
-2014).  The core packages \pkg{future}, \CRANpkg{parallelly}~\citep{CRAN:parallelly}, \pkg{globals},
-and \pkg{listenv} are implemented in plain R (without native code) to
+2014).  The core packages \pkg{future},
+\CRANpkg{parallelly}~\citep{CRAN:parallelly}, \pkg{globals}, and
+\pkg{listenv} are implemented in plain R (without native code) to
 maximize cross-platform operability and to keep installation simple.
-They are available on CRAN (since 2015).  The \CRANpkg{digest}
+They are available on CRAN (since 2015).  The \pkg{parallelly} package
+implements enhancements to the \pkg{parallel} package originally part
+of the \pkg{future} package.  The \CRANpkg{digest}
 package~\citep{CRAN:digest} is used to produce universally unique
 identifiers (UUIDs).  Development is done toward a public Git
 repository hosted at \url{https://github.com/HenrikBengtsson/future}.
@@ -1159,11 +1163,11 @@ agility of system settings of \code{availableCores()}, makes parallel
 code that uses futures to play nicely on multi-tenant systems.  It
 respects all known R options and environment variables that specify,
 or otherwise, limit the number of parallel workers allowed.
-See \code{help("availableCores",\,package\,=\,"future")} for details.
-In contrast, it is, unfortunately, very common to find parallel code
-that uses \code{parallel::detectCores()} as the default number of
-workers in other parallel frameworks.  Defaulting to using all
-available cores this way often wreak havoc on multi-tenant compute
+See \code{help("availableCores",\,package\,=\,"parallelly")} for
+details.  In contrast, it is, unfortunately, very common to find
+parallel code that uses \code{parallel::detectCores()} as the default
+number of workers in other parallel frameworks.  Defaulting to using
+all available cores this way often wreak havoc on multi-tenant compute
 systems by overusing already consumed CPU resources, sometimes
 bringing the system to a halt due to too much context switching and
 memory use.  Unfortunately, this often resulting in a negative
