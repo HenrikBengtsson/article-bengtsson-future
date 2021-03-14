@@ -1007,6 +1007,7 @@ ecosystem at large.
 
 
 \subsection{Known limitations}
+\label{known-limitations}
 
 When saving an R object to file, or sending it to a parallel worker, R
 uses a built-in technique called \dfn{serialization}, which allows a
@@ -1034,7 +1035,7 @@ the worst case, produce invalid results or, for instance, write to the
 wrong file.  These constraints apply to all types of parallelization
 frameworks in R, including the future framework.
 
-There are other types of objects that cannot be transfered as-is to
+There are other types of objects that cannot be transferred as-is to
 external processes, many from popular third-party packages, e.g.\
 database connections of the \CRANpkg{DBI} package, XML documents of
 the \CRANpkg{xml2} package, STAN models of the \CRANpkg{stan} package,
@@ -1330,6 +1331,23 @@ futures to be processed at a later time, in another context, or to
 transfer them to a job queue that in turn distributes them to
 appropriate compute resources.
 
+The problem of not being able to use all types of objects as-is in
+parallel processing can be a blocker.  It turns out that for a subset
+of these we could use \dfn{marshalling} to encode before serializing
+them such that a working clone can be reconstructed after
+unserializing and \dfn{unmarshalling}.  As an example, a read-only
+file connection can marshalled by recording its filename and file
+position so that the parallel worker could open its own read-only
+connection for same file at the same position.  Although prepared for
+by base R functions \code{serialize()} and \code{unserialize()} via
+argument \code{refhook}, marshalling is rarely used concept in R,
+possibly because there is no standard convention for package
+developers to rely on. Ideally such a mechanism would allow package
+developers to register custom \code{marshal()} and \code{unmarshal()}
+methods for their data types making them automatically applicable in
+parallelization without prior knowledge of what objects being
+transferred.
+
 Other than setting the backend via \code{plan()}, it is not possible
 to direct a particular future to a specific backend type based on the
 needs of the future.  To support this, we have to add options to
@@ -1341,7 +1359,9 @@ f <- future({ ... }, resources = c("r:3.2.*", "mount:/data", "!fork"))
 %
 could be one way to specify that this future has to be resolved with R
 3.2 on a machine with a \code{/data} mount point and forked parallel
-processing must not be used.
+processing must not be used.  Some resources may be implicit based on
+exported globals, e.g. a specific file required when exporting a file
+connection.
 
 All the above is on the roadmap for the future framework.
 
