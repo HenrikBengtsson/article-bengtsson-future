@@ -35,14 +35,18 @@ facilitate the most common types of parallel processing in R,
 especially the \dfn{manager-worker} strategy where an R process
 delegates tasks to other R processes. It builds upon the concepts
 of \dfn{futures} \citep{HewittBaker_1977}
-and \dfn{promises} \citep{FriedmanWise_1978, Hibbard_1976}.
-To better understand how it fits in among and relates to existing
-parallelization solutions in R\footnote{Although the concept of
-futures could also apply to native-code parallelization, the future
-framework targets parallelization at the R level.  For parallelization
-in C, C++, and Fortran, see \citet{Eddelbuettel2020}.}, let us revisit
-the two most well-known solutions - packages \pkg{parallel}
-and \CRANpkg{foreach}.
+and \dfn{promises} \citep{FriedmanWise_1978, Hibbard_1976}.  To better
+understand how it fits in among and relates to existing
+parallelization solutions in R, let us revisit the two most well-known
+solutions - packages \pkg{parallel} and \CRANpkg{foreach} - below.
+For an overview of parallel techniques available to R developers,
+including the ones based on native code\footnote{Although the concept
+of futures could also apply to C, C++, and Fortran parallelization,
+the future framework targets parallelization at the R level and does
+not provide an implementation for native code.} not discussed here,
+see \citet{Eddelbuettel2020} and the
+\href{https://CRAN.R-project.org/view=HighPerformanceComputing}{\emph{High-Performance and Parallel Computing with R}} CRAN Task View.
+
 
 The \pkg{parallel} package, part of R since version 2.14.0 (2011),
 provides a set of functions for calling functions and expression in
@@ -277,9 +281,14 @@ Contrary to the regular assignment construct where the evaluation of
 the expression and the assignment of its value are tightly coupled,
 the future construct allows us to decouple these steps, which is an
 essential property of futures and necessary when doing parallel
-processing.  Especially, the decoupling allows us to perform other
-tasks in-between the step that evaluates the expression and the step
-that assigns its value to the target variable.
+processing\footnote{We can find this future-value pattern in several
+implementations for parallel processing, including the ones we use in
+R. The \code{mcparallel()}-\code{mccollect()} pair of functions
+in \pkg{parallel} is one example.  This is why the future-value
+abstraction can be mapped onto many of our existing parallel
+frameworks in a unified way.}.  Especially, the decoupling allows
+us to perform other tasks in-between the step that evaluates the
+expression and the step that assigns its value to the target variable.
 %
 Here is an example that creates a future that calculates
 \code{slow\_fcn(x)} with \code{x} being \code{1}, then re-assigns
@@ -395,7 +404,7 @@ is something we will return to later.
     switching to \code{plan(sequential)}, then all futures are
     resolved sequentially in the main R process.
     Only core Future API functions from the \pkg{future} package were
-    used.  Less verbose map-reduce alternatives are available in
+    used.  Less verbose, map-reduce alternatives are available in
     high-level future packages such as \pkg{future.apply},
     \pkg{furrr}, and \pkg{doFuture}.}
     \label{figure:future-4workers}
