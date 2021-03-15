@@ -310,15 +310,14 @@ which corresponds to setting:
 plan(sequential)
 \end{example}
 Before we continue, it should be emphasized that the \dfn{Future API}
-is designed for \dfn{sequential consistency}~\citep{Lamport1979} - no
-matter how and where futures are resolved, may it be in parallel, the
-parallel code produce the same results as the counter-part sequential
-code.  As a consequence, \emph{the future ecosystem is designed to
-separate the responsibilities of the developer from those of the
-end-user}.  This allows the developer to focus on the code to be
-parallelized while the end-user focuses on how to parallelize.  It is
-the end-user who decides on the \code{plan()}.  For example, if they
-specify:
+is designed so that a program using it gives the same results no
+matter how and where the futures are resolved, may it be sequentially
+on the local machine or in parallel on a remote cluster.  As a
+consequence, \emph{the future ecosystem is designed to separate the
+responsibilities of the developer from those of the end-user}.  This
+allows the developer to focus on the code to be parallelized while the
+end-user focuses on how to parallelize.  It is the end-user who
+decides on the \code{plan()}.  For example, if they specify:
 \begin{example}
 plan(multisession)
 \end{example}
@@ -1126,7 +1125,8 @@ parallelized on the local computer, could suddenly parallelize across
 thousands of cores on high-performance compute (HPC) clusters via the
 job scheduler.  All it took was to change the \code{plan()}.
 
-Because the future ecosystem is \dfn{sequential consistent}, it is
+Because the future ecosystem is at its core designed to give
+consistent results across all sequential and parallel backends, it is
 straightforward to update, or port, an existing, sequential,
 map-reduce framework such that it can run in parallel. Not having to
 worry about low-level parallelization code, which otherwise risks
