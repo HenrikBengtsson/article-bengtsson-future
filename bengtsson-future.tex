@@ -29,6 +29,31 @@ problems not addressed by other parallel frameworks in R.
 \section{Introduction}
 \label{introduction}
 
+Parallel processing can be used to speed up computationally intensive
+tasks.  As the size of these tasks tend to grow over time, and access
+to more CPU cores, so does the demand for parallel-processing
+solutions.  In R, there exist several frameworks for running code in
+parallel, many dating back more than a
+decade~\citep{Schmidberger2009}.  R gained built-in support
+via \pkg{parallel} package with version 2.14.0 (2011), which to date
+probably provides the most commonly used solutions, either directly or
+indirectly.  For a overview of current parallel techniques available
+to R developers see \citet{Eddelbuettel2020} and the
+\href{https://CRAN.R-project.org/view=HighPerformanceComputing}{\emph{High-Performance and Parallel Computing with R}} CRAN Task View.
+%
+The options for parallelization in R can be grouped broadly into those
+that can be used to parallelize R code, such as what
+the \pkg{parallel} package provides, and those that are used to
+parallelize native code, such C, C++, and Fortran, and are often not
+specific to R itself.  For example, multi-threaded processing is an
+efficient parallelization technique, which operates at the core of
+operating system and the CPU and allows for updating shared memory in
+parallel and more, that is not available at the R level.  In contrast,
+parallelization at the R level takes place at a higher-level, which we
+refer to as \dfn{multi-process} parallelization and which is a coarser
+type of parallelization.  This article proposes a parallelization
+solution at the R level.
+
 The \CRANpkg{future} package~\citep{CRAN:future} aims to provide a
 unifying, generic, minimal application protocol interface (API) to
 facilitate the most common types of parallel processing in R,
@@ -37,16 +62,12 @@ delegates tasks to other R processes. It builds upon the concepts
 of \dfn{futures} \citep{HewittBaker_1977}
 and \dfn{promises} \citep{FriedmanWise_1978, Hibbard_1976}.  To better
 understand how it fits in among and relates to existing
-parallelization solutions in R, let us revisit the two most well-known
-solutions - packages \pkg{parallel} and \CRANpkg{foreach} - below.
-For an overview of parallel techniques available to R developers,
-including the ones based on native code\footnote{Although the concept
-of futures could also apply to C, C++, and Fortran parallelization,
-the future framework targets parallelization at the R level and does
-not provide an implementation for native code.} not discussed here,
-see \citet{Eddelbuettel2020} and the
-\href{https://CRAN.R-project.org/view=HighPerformanceComputing}{\emph{High-Performance and Parallel Computing with R}} CRAN Task View.
-
+parallelization solutions in R\footnote{Although the concept of
+futures could also apply to C, C++, and Fortran parallelization, the
+future framework targets parallelization at the R level and does not
+provide an implementation for native code.}, let us revisit the two
+most well-known solutions - packages \pkg{parallel}
+and \CRANpkg{foreach}.
 
 The \pkg{parallel} package, part of R since version 2.14.0 (2011),
 provides a set of functions for calling functions and expression in
@@ -929,7 +950,7 @@ require administrative rights on the machine's firewall in order to
 allow the R process to communicate on certain ports. Moreover, on
 machines with a large number of cores, PSOCK clusters are limited to
 125 parallel workers, because that is the maximum number of
-connections R can have open simulatenously.}, orchestrated by
+connections R can have open simultaneously.}, orchestrated by
 the \CRANpkg{callr}~\citep{CRAN:callr} package, e.g.
 \begin{example}
 plan(future.callr::callr)  ## defaults to workers = availableCores()
@@ -1271,6 +1292,58 @@ access to the host machine and its file system and network.
 
 
 
+\section{Discussion}
+\label{discussion}
+
+With parallel processing, comes overhead.  Typically sources of added
+extra processing time are from spawning new parallel processes,
+sending instructions and globals to the workers, querying workers for
+results, and receiving results (Figure~\ref{figure:future-4workers}).
+Because of this, there is always a trade-off between sequential and
+parallel processing, and on how many parallel workers can be used
+before the total overhead dominates the benefits.  Whether or not
+parallelization is beneficial, and for which parallel backends,
+depends on what is being parallelized.
+
+As with other parallel solutions, in the future framework, overhead
+differ between parallel backends.  Certain parallel backends, such as
+forked processing (``multicore''), are better suited for low-latency
+requirements, whereas others, such as distributed processing
+(``cluster'' and ``batchtools''), are better suited for
+large-throughput requirements.  For example, many fast operations
+applied on a single large data frame should probably be parallized on
+the local computer with forked processing, if supported, rather than
+being distributed to a compute cluster running in the cloud.  In
+contrast, processing hundreds of data files may be completed sooner if
+distributed out to multiple computers (with access to the same file
+system), for instance via a job scheduler, rather than being processed
+in parallel on the local machine.
+
+In addition to the overhead added by the parallel backend, each future
+regardless of backend has a baseline overhead.  Specifically, there is
+a small overhead from the static-code inspection used to identify
+global variables, from exception handling needed to capture and relay
+errors, and from capturing and relaying standard output and
+conditions.  Except for the error-handling overhead, these can all be
+avoided via certain \code{future()} arguments, e.g. by manually
+specifying globals needed and by disabling the relaying of output
+and conditions.
+
+R has several profiling tools that can help identify bottlenecks and
+overhead in computational expensive tasks, e.g. \code{system.time()}
+of the \pkg{base} package,
+\CRANpkg{microbenchmark}~\citep{CRAN:microbenchmark},
+\CRANpkg{bench}~\citep{CRAN:bench},
+\code{Rprof()} of the \pkg{utils} package,
+\CRANpkg{proffer}~\citep{CRAN:proffer}, and
+\CRANpkg{profvis}~\citep{CRAN:profvis}.  These tools can also be
+used to identify different sources of overhead in the parallelization
+framework itself, including the ones of the future ecosystem.  It is
+on the roadmap to make futures collect and report on some of these
+benchmarks automatically to help developers optimize their code and
+for end-users to choose a proper backend.
+
+
 \section{Future work}
 \label{future-work}
 
@@ -1371,14 +1444,14 @@ appropriate compute resources.
 
 The problem of not being able to use all types of objects as-is in
 parallel processing can be a blocker.  It turns out that for a subset
-of these we could use \dfn{marshalling} to encode before serializing
+of these we could use \dfn{marshaling} to encode before serializing
 them such that a working clone can be reconstructed after
-unserializing and \dfn{unmarshalling}.  As an example, a read-only
-file connection can marshalled by recording its filename and file
+unserializing and \dfn{unmarshaling}.  As an example, a read-only
+file connection can marshaled by recording its filename and file
 position so that the parallel worker could open its own read-only
 connection for same file at the same position.  Although prepared for
 by base R functions \code{serialize()} and \code{unserialize()} via
-argument \code{refhook}, marshalling is rarely used concept in R,
+argument \code{refhook}, marshaling is rarely used concept in R,
 possibly because there is no standard convention for package
 developers to rely on. Ideally such a mechanism would allow package
 developers to register custom \code{marshal()} and \code{unmarshal()}
