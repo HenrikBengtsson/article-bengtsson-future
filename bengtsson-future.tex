@@ -1129,6 +1129,58 @@ Finally, it is theoretically possible to restructure some of the
 processing.  This is discussed futher in the `Future work' section.
 
 
+\subsection{Overhead}
+\label{overhead}
+
+With parallel processing, comes overhead.  Typically sources of added
+processing time are from spawning new parallel processes,
+sending instructions and globals to the workers, querying workers for
+results, and receiving results (Figure~\ref{figure:future-4workers}).
+Because of this, there is always a trade-off between sequential and
+parallel processing, and on how many parallel workers can be used
+before the total overhead dominates the benefits.  Whether or not
+parallelization is beneficial, and for which parallel backends,
+depends on what is being parallelized.
+
+As with other parallel solutions, in the future framework, overhead
+differ between parallel backends.  Certain parallel backends, such as
+forked processing (``multicore''), are better suited for low-latency
+requirements, whereas others, such as distributed processing
+(``cluster'' and ``batchtools''), are better suited for
+large-throughput requirements.  For example, many fast operations
+applied to a single large data frame should probably be parallized on
+the local computer with forked processing, if supported, rather than
+being distributed on a compute cluster running in the cloud.  In
+contrast, processing hundreds of data files may be completed sooner if
+distributed out to multiple computers (with access to the same file
+system), for instance via a job scheduler, rather than being processed
+in parallel on the local machine.
+
+In addition to the overhead added by the parallel backend, each future
+regardless of backend has a baseline overhead.  Specifically, there is
+a small overhead from the static-code inspection used to identify
+global variables, from exception handling needed to capture and relay
+errors, and from capturing and relaying standard output and
+conditions.  Except for the error-handling overhead, these can all be
+avoided via certain \code{future()} arguments, e.g. by manually
+specifying globals needed and by disabling the relaying of output
+and conditions.
+
+R has several profiling tools that can help identify bottlenecks and
+overhead in computational expensive tasks, e.g. \code{system.time()}
+of the \pkg{base} package,
+\CRANpkg{microbenchmark}~\citep{CRAN:microbenchmark},
+\CRANpkg{bench}~\citep{CRAN:bench},
+\code{Rprof()} of the \pkg{utils} package,
+\CRANpkg{proffer}~\citep{CRAN:proffer}, and
+\CRANpkg{profvis}~\citep{CRAN:profvis}.  These tools can also be
+used to identify different sources of overhead in the parallelization
+framework itself, including the ones in the future ecosystem.  It is
+on the roadmap to make futures collect and report on some of these
+benchmarks automatically in order to help developers optimize their
+code and for end-users to choose a proper backend.
+
+
 \section{Results}
 \label{results}
 
@@ -1304,58 +1356,6 @@ virtual machine, or in a Linux container, such as
 Singularity~\citep{Kurtzer2017} or Docker~\citep{Merkel2014}, without
 access to the host machine and its file system and network.
 
-
-
-\section{Discussion}
-\label{discussion}
-
-With parallel processing, comes overhead.  Typically sources of added
-processing time are from spawning new parallel processes,
-sending instructions and globals to the workers, querying workers for
-results, and receiving results (Figure~\ref{figure:future-4workers}).
-Because of this, there is always a trade-off between sequential and
-parallel processing, and on how many parallel workers can be used
-before the total overhead dominates the benefits.  Whether or not
-parallelization is beneficial, and for which parallel backends,
-depends on what is being parallelized.
-
-As with other parallel solutions, in the future framework, overhead
-differ between parallel backends.  Certain parallel backends, such as
-forked processing (``multicore''), are better suited for low-latency
-requirements, whereas others, such as distributed processing
-(``cluster'' and ``batchtools''), are better suited for
-large-throughput requirements.  For example, many fast operations
-applied to a single large data frame should probably be parallized on
-the local computer with forked processing, if supported, rather than
-being distributed on a compute cluster running in the cloud.  In
-contrast, processing hundreds of data files may be completed sooner if
-distributed out to multiple computers (with access to the same file
-system), for instance via a job scheduler, rather than being processed
-in parallel on the local machine.
-
-In addition to the overhead added by the parallel backend, each future
-regardless of backend has a baseline overhead.  Specifically, there is
-a small overhead from the static-code inspection used to identify
-global variables, from exception handling needed to capture and relay
-errors, and from capturing and relaying standard output and
-conditions.  Except for the error-handling overhead, these can all be
-avoided via certain \code{future()} arguments, e.g. by manually
-specifying globals needed and by disabling the relaying of output
-and conditions.
-
-R has several profiling tools that can help identify bottlenecks and
-overhead in computational expensive tasks, e.g. \code{system.time()}
-of the \pkg{base} package,
-\CRANpkg{microbenchmark}~\citep{CRAN:microbenchmark},
-\CRANpkg{bench}~\citep{CRAN:bench},
-\code{Rprof()} of the \pkg{utils} package,
-\CRANpkg{proffer}~\citep{CRAN:proffer}, and
-\CRANpkg{profvis}~\citep{CRAN:profvis}.  These tools can also be
-used to identify different sources of overhead in the parallelization
-framework itself, including the ones in the future ecosystem.  It is
-on the roadmap to make futures collect and report on some of these
-benchmarks automatically in order to help developers optimize their
-code and for end-users to choose a proper backend.
 
 
 \section{Future work}
