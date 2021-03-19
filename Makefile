@@ -1,13 +1,15 @@
 SHELL=bash
 NAME=bengtsson-future
 
+INCLUDES=RJwrapper.tex figures/future-lapply-4workers.pdf $(NAME).tex $(NAME).bib
+
 render: RJwrapper.pdf
 
 log-report: RJwrapper.log
 	@echo "** LaTeX Warnings and Errors **"
 	@grep --color=always -iE ".*(LaTeX (Error|Warning):|Warning: Citation .* undefined).*" $< || true
 
-RJwrapper.pdf: RJwrapper.tex figures/*.pdf RJournal.sty $(NAME).tex $(NAME).bib
+RJwrapper.pdf: $(INCLUDES)
 	@Rscript -e "tools:::texi2pdf('RJwrapper.tex')"
 	@make log-report
 
@@ -49,7 +51,7 @@ arxiv.tar.gz: arxiv/arxiv-$(NAME).pdf
 	tar -czf "$@" arxiv/arxiv-$(NAME).tex arxiv/arxiv-$(NAME).bbl arxiv/RJournal.sty
 
 
-# https://arxiv.org/help/submit_tex#wegotem
-$(NAME).tar.gz: RJwrapper.pdf $(NAME).R $(NAME)-coverletter.pdf
-	tar -czf "$@" RJwrapper.tex $(NAME).tex $(NAME).bib $(NAME).R $(NAME)-coverletter.pdf
+# What to submit to the R Journal
+$(NAME).tar.gz: RJwrapper.pdf $(INCLUDES) #$(NAME)-coverletter.pdf
+	tar -czf "$@" $^
 
