@@ -598,10 +598,11 @@ stdout
 # [1] "Hello world" "Bye bye"
 \end{example}
 %
-Similarly, \code{withCallingHandlers()} can be used to capture and
-handle the different classes of conditions being relayed.  Note that
-all of the above works the same way regardless of what future backend
-is used, including when futures are resolved on a remote machine.
+Similarly, \code{withCallingHandlers()}
+and \code{globalCallingHandlers()} can be used to capture and handle
+the different classes of conditions being relayed.  Note that all of
+the above works the same way regardless of what future backend is
+used, including when futures are resolved on a remote machine.
 
 Relaying of standard output, messages, warnings, and errors simplifies
 any troubleshooting. For example, existing verbose output helps narrow
