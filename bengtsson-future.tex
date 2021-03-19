@@ -36,9 +36,9 @@ solutions.  In R, there exist several frameworks for running code in
 parallel, many dating back more than a
 decade~\citep{Schmidberger2009}.  R gained built-in support
 via \pkg{parallel} package with version 2.14.0 (2011), which to date
-probably provides the most commonly used solutions, either directly or
-indirectly.  For a overview of current parallel techniques available
-to R developers see \citet{Eddelbuettel2020} and the
+probably provides the most, either directly or indirectly, commonly
+used solutions.  For a overview of current parallel techniques
+available to R developers see \citet{Eddelbuettel2020} and the
 \href{https://CRAN.R-project.org/view=HighPerformanceComputing}{\emph{High-Performance and Parallel Computing with R}} CRAN Task View.
 %
 The options for parallelization in R can be grouped broadly into those
@@ -237,9 +237,9 @@ different results. An example of the former is the difference
 between \pkg{doMC} on Unix-like systems and \pkg{doParallel} on
 Windows. Analogously to \code{mclapply()}, when using \pkg{doMC},
 globals and packages are automatically taken care of by the process
-forking. In contrast, when using \pkg{doParallel} with SNOW clusters,
-globals and packages need to be identified and explicitly exported,
-via additional arguments \code{.export} and \code{.packages}
+forking. In contrast, when using \pkg{doParallel} with ``snow''
+clusters, globals and packages need to be identified and explicitly
+exported, via additional arguments \code{.export} and \code{.packages}
 to \code{foreach()}, to the parallel workers running in the
 background.  Thus, a developer that only uses \pkg{doMC} might forget
 to test their code with \pkg{doParallel}, where it may fail.  Having
@@ -915,7 +915,7 @@ plan(multicore) ## defaults to workers = availableCores()
 plan(multicore, workers = 4)
 \end{example}
 %
-To resolve futures via \emph{any} type of "snow" cluster, use
+To resolve futures via \emph{any} type of ``snow'' cluster, use
 the \code{cluster} backend.  For example, to use a traditional SOCK
 cluster or an MPI cluster, use:
 \begin{example}
@@ -981,7 +981,7 @@ plan(future.batchtools::batchtools_torque)
 \end{example}
 %
 Yet another example is the \CRANpkg{googleComputeEngineR}
-package~\citep{CRAN:googleComputeEngineR}, which provides a snow
+package~\citep{CRAN:googleComputeEngineR}, which provides a ``snow''
 cluster type that supports\footnote{It also supports
 using \code{parLapply()} functions.}  resolving futures in the cloud
 on the Google~Compute~Engine platform.
