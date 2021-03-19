@@ -155,6 +155,8 @@ if (parallel == "fork") {
   ...
 } else if (parallel == "SOCK") {
   ...
+} else if (parallel == "MPI") {
+  ...
 } else {
   ...
 }
@@ -420,7 +422,7 @@ is something we will return to later.
 
 \begin{figure}[htbp]
   \begin{center}
-    \includegraphics[width=0.7\linewidth]{figures/future-lapply-4workers}
+    \includegraphics[width=0.75\linewidth]{figures/future-lapply-4workers}
     \caption{An illustration of parallel processing using futures via
     four R processes running in the background.  Base R
     \code{lapply()} is used to call \code{slow\_fcn()} ten times -
