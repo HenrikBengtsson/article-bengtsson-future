@@ -30,8 +30,8 @@ problems not addressed by other parallel frameworks in R.
 \label{introduction}
 
 Parallel processing can be used to speed up computationally intensive
-tasks.  As the size of these tasks tend to grow over time, and access
-to more CPU cores, so does the demand for parallel-processing
+tasks.  As the size of these tasks and access to more CPU cores tend
+to grow over time, so does the demand for parallel-processing
 solutions.  In R, there exist several frameworks for running code in
 parallel, many dating back more than a
 decade~\citep{Schmidberger2009}.  R gained built-in support
@@ -46,7 +46,7 @@ that can be used to parallelize R code, such as what
 the \pkg{parallel} package provides, and those that are used to
 parallelize native code, such C, C++, and Fortran, and are often not
 specific to R itself.  For example, multi-threaded processing is an
-efficient parallelization technique, which operates at the core of
+efficient parallelization technique, which operates at the core of the
 operating system and the CPU and allows for updating shared memory in
 parallel and more, that is not available at the R level.  In contrast,
 parallelization at the R level takes place at a higher-level, which we
@@ -60,8 +60,9 @@ facilitate the most common types of parallel processing in R,
 especially the \dfn{manager-worker} strategy where an R process
 delegates tasks to other R processes. It builds upon the concepts
 of \dfn{futures} \citep{HewittBaker_1977}
-and \dfn{promises} \citep{FriedmanWise_1978, Hibbard_1976}.  To better
-understand how it fits in among and relates to existing
+and \dfn{promises} \citep{FriedmanWise_1978, Hibbard_1976} - concepts
+that are well suited for a functional language such as R.
+To better understand how it fits in among and relates to existing
 parallelization solutions in R\footnote{Although the concept of
 futures could also apply to C, C++, and Fortran parallelization, the
 future framework targets parallelization at the R level and does not
@@ -69,13 +70,12 @@ provide an implementation for native code.}, let us revisit the two
 most well-known solutions - packages \pkg{parallel}
 and \CRANpkg{foreach}.
 
-The \pkg{parallel} package, part of R since version 2.14.0 (2011),
-provides a set of functions for calling functions and expression in
-parallel across one or more concurrent R processes. The most
-well-known functions for this are \code{mclapply()}
-and \code{parLapply()}, which mimic the behavior of the
-map-reduce\footnote{We use the term ``map-reduce'' as it is used in
-functional programming. The \dfn{MapReduce} method by
+The \pkg{parallel} package has a set of functions for calling
+functions and expression in parallel across one or more concurrent R
+processes. The most well-known functions for this
+are \code{mclapply()} and \code{parLapply()}, which mimic the behavior
+of the map-reduce\footnote{We use the term ``map-reduce'' as it is
+used in functional programming. The \dfn{MapReduce} method by
 \citet{DeanGhemawat2004} was inspired by this term but they are not
 equivalent.}
 function \code{lapply()} in the \pkg{base} package.  Here is an
@@ -166,15 +166,24 @@ parallelization method, if at all.
 Functions like \code{parLapply()} partly address the problem of
 supporting multiple parallelization frameworks because they support
 various types of parallel cluster backends referred to as ``snow''
-clusters (from their origin in the \pkg{snow} package). If a developer
-uses \code{parLapply()}, they could write their code such that the
-end-user can specify what type of snow cluster to use, e.g.\ by
-respecting what the end-user set via \code{setDefaultCluster()}.  This
-provides the end-user with more, although in practice limited, options
-on how and where to execute code in parallel. Unfortunately, it is
-rather common that the cluster type is hard-coded inside packages
-giving end-users little to no control over the parallelization
-mechanism, other than possibly the number of cores to use.
+clusters (from their origin in the \pkg{snow} package), e.g.
+\code{workers\,<-\,makeCluster(4, type\,=\,"FORK")} sets up a cluster that
+parallelizes using forked processing, and
+\code{workers\,<-\,makeCluster(4, type\,=\,"MPI")} sets up a cluster that
+parallelizes via a Message Passing Interface (MPI) framework.  If a
+developer uses \code{parLapply()}, they could write their code such
+that the end-user can specify what type of snow cluster to use, e.g.\
+by respecting what the end-user set
+via \code{setDefaultCluster(workers)}.  This provides the end-user
+with more, although in practice\footnote{The \pkg{parallel} package
+does not export generic functions \code{sendData()}
+and \code{recvData()}. If these would be exported, then it would be
+possible to implement also other types of ``snow'' cluster backends.}
+limited, options on how and where to execute code in
+parallel. Unfortunately, it is rather common that the cluster type is
+hard-coded inside packages giving end-users little to no control over
+the parallelization mechanism, other than possibly the number of cores
+to use.
 
 \subsection{Map-reduce parallelization with more control for the end-user}
 \label{map-reduce-parallelization-with-more-control-for-the-end-user}
@@ -540,7 +549,7 @@ workers and failed communication, are of a different kind than above
 evaluation errors.  Because of this, they are signaled as errors of
 class \dfn{FutureError} so they can be handled specifically, e.g.\ by
 restarting R workers or relaunching the failed future elsewhere
-(Section `Future Work').
+(Section `Future work').
 
 
 \subsection{Relaying of standard output and conditions (e.g.\ messages and warnings)}
@@ -621,8 +630,9 @@ however, that this type of near-live relaying of
 \dfn{immediateCondition}:s only works for backends that have the means to
 communicate these conditions from the worker back to the main R
 session, while the worker still processes the future.  When
-non-supporting backends are used, these conditions are relayed only at
-the very end when the future is resolved.
+non-supporting backends are used, these conditions are relayed
+together with other captured conditions at the very end when the
+future is resolved.
 
 \emph{Comment:} Contrary to the standard output, due to limitations in
 R\footnote{See \url{https://github.com/HenrikBengtsson/Wishlist-for-R/issues/55}},
@@ -1001,7 +1011,7 @@ implementation throughout the future ecosystem.  Several types of
 testing are performed.
 
 First, all the essential core packages part of the future framework,
-\pkg{future}, \pkg{globals}, and \pkg{listenv},
+\pkg{future}, \pkg{parallelly}, \pkg{globals}, and \pkg{listenv},
 implement a rich set of package tests.  These are validated regularly
 across the wide-range of operating systems (Linux, Solaris, macOS, and
 MS Windows) and R versions available on CRAN, on continuous
@@ -1011,7 +1021,7 @@ CI), an on R-hub.
 Second, for each new release, these packages undergo full
 reverse-package dependency checks
 using \pkg{revdepcheck}~\citep{GitHub:revdepcheck}.  As of March 2021,
-the \pkg{future} package is tested against 143 direct reverse-package
+the \pkg{future} package is tested against 166 direct reverse-package
 dependencies available on CRAN and Bioconductor.  These checks are
 performed on Linux with both the default settings and when forcing
 tests to use multisession workers (SOCK clusters), which further
@@ -1113,6 +1123,10 @@ discovered, which often happens when there is an unexpected run-time
 error.  To help troubleshooting, it is possible to configure
 the \pkg{future} package to scan for and warn about globals with
 external pointers whenever used in a future.
+
+Finally, it is theoretically possible to restructure some of the
+``non-exportable'' object types such that they can be used in parallel
+processing.  This is discussed futher in the `Future work' section.
 
 
 \section{Results}
@@ -1248,7 +1262,7 @@ package \CRANpkg{drake}~\citep{Landau_2018} implements ``a pipeline
 toolkit for reproducible computation at scale''.  It works by defining
 make-like targets and dependencies that can be resolved in parallel
 using any type of future backend.
-
+%
 Another prominent example is the \CRANpkg{shiny}~\citep{CRAN:shiny}
 package, which implements support for \dfn{asynchronous processing} in
 Shiny application via futures.  Asynchronous processing helps to
@@ -1296,7 +1310,7 @@ access to the host machine and its file system and network.
 \label{discussion}
 
 With parallel processing, comes overhead.  Typically sources of added
-extra processing time are from spawning new parallel processes,
+processing time are from spawning new parallel processes,
 sending instructions and globals to the workers, querying workers for
 results, and receiving results (Figure~\ref{figure:future-4workers}).
 Because of this, there is always a trade-off between sequential and
@@ -1311,9 +1325,9 @@ forked processing (``multicore''), are better suited for low-latency
 requirements, whereas others, such as distributed processing
 (``cluster'' and ``batchtools''), are better suited for
 large-throughput requirements.  For example, many fast operations
-applied on a single large data frame should probably be parallized on
+applied to a single large data frame should probably be parallized on
 the local computer with forked processing, if supported, rather than
-being distributed to a compute cluster running in the cloud.  In
+being distributed on a compute cluster running in the cloud.  In
 contrast, processing hundreds of data files may be completed sooner if
 distributed out to multiple computers (with access to the same file
 system), for instance via a job scheduler, rather than being processed
@@ -1338,10 +1352,10 @@ of the \pkg{base} package,
 \CRANpkg{proffer}~\citep{CRAN:proffer}, and
 \CRANpkg{profvis}~\citep{CRAN:profvis}.  These tools can also be
 used to identify different sources of overhead in the parallelization
-framework itself, including the ones of the future ecosystem.  It is
+framework itself, including the ones in the future ecosystem.  It is
 on the roadmap to make futures collect and report on some of these
-benchmarks automatically to help developers optimize their code and
-for end-users to choose a proper backend.
+benchmarks automatically in order to help developers optimize their
+code and for end-users to choose a proper backend.
 
 
 \section{Future work}
@@ -1444,13 +1458,13 @@ appropriate compute resources.
 
 The problem of not being able to use all types of objects as-is in
 parallel processing can be a blocker.  It turns out that for a subset
-of these we could use \dfn{marshaling} to encode before serializing
-them such that a working clone can be reconstructed after
-unserializing and \dfn{unmarshaling}.  As an example, a read-only
-file connection can marshaled by recording its filename and file
-position so that the parallel worker could open its own read-only
-connection for same file at the same position.  Although prepared for
-by base R functions \code{serialize()} and \code{unserialize()} via
+of these we could use \dfn{marshaling} to encode them before
+serializing them such that a working clone can be reconstructed after
+unserializing and \dfn{unmarshaling}.  As an example, a read-only file
+connection can marshaled by recording its filename and file position
+so that the parallel worker could open its own read-only connection
+for same file at the same position.  Although prepared for by base R
+functions \code{serialize()} and \code{unserialize()} via
 argument \code{refhook}, marshaling is rarely used concept in R,
 possibly because there is no standard convention for package
 developers to rely on. Ideally such a mechanism would allow package
@@ -1472,7 +1486,7 @@ could be one way to specify that this future has to be resolved with R
 3.2 on a machine with a \code{/data} mount point and forked parallel
 processing must not be used.  Some resources may be implicit based on
 exported globals, e.g. a specific file required when exporting a file
-connection.
+connection via marshaling.
 
 All the above is on the roadmap for the future framework.
 
