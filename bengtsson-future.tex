@@ -177,10 +177,11 @@ developer uses \code{parLapply()}, they could write their code such
 that the end-user can specify what type of snow cluster to use, e.g.\
 by respecting what the end-user set
 via \code{setDefaultCluster(workers)}.  This provides the end-user
-with more, although in practice\footnote{The \pkg{parallel} package
-does not export generic functions \code{sendData()}
-and \code{recvData()}. If these would be exported, then it would be
-possible to implement also other types of ``snow'' cluster backends.}
+with more, although in practice%
+\footnote{The \pkg{parallel} package does not export generic functions
+\code{sendData()} and \code{recvData()}. If these would be exported, then
+it would be possible to implement also other types of ``snow'' cluster
+backends.}
 limited, options on how and where to execute code in
 parallel. Unfortunately, it is rather common that the cluster type is
 hard-coded inside packages giving end-users little to no control over
@@ -1135,7 +1136,7 @@ processing.  This is discussed futher in the `Future work' section.
 \subsection{Overhead}
 \label{overhead}
 
-With parallel processing, comes overhead.  Typically sources of added
+With parallel processing comes overhead.  Typically sources of added
 processing time are from spawning new parallel processes,
 sending instructions and globals to the workers, querying workers for
 results, and receiving results (Figure~\ref{figure:future-4workers}).
@@ -1236,7 +1237,7 @@ APIs on top of the \dfn{Future API}.  The \pkg{future.apply}
 package~\citep{CRAN:future.apply}, implements futurized variants of
 R's apply functions found in the \pkg{base} package,
 e.g.\ \code{future\_apply()} and \code{future\_lapply()} are plug-in
-replacements for \code{lapply()} and \code{apply()}.  The \pkg{furrr}
+replacements for \code{apply()} and \code{lapply()}.  The \pkg{furrr}
 package~\citep{CRAN:furrr} implements futurized variants of the
 different map-reduce functions found in the \CRANpkg{purrr}
 package~\citep{CRAN:purrr}, e.g.\ \code{future\_map()} is as plug-in
@@ -1452,8 +1453,8 @@ resolve failed futures,
 e.g.\ \code{retry(\{\,...\,\},\,times\,=\,3,\,on\,=\,"FutureError")}.
 
 Implementing support for suspending and restarting futures will
-indirectly add support for serializing futures, which is only
-partially supported in the current implementation.  Being able to
+indirectly add support for serializing futures themselves, which is
+only partially supported in the current implementation.  Being able to
 serialize futures opens up for further possibilities such as saving
 futures to be processed at a later time, in another context, or to
 transfer them to a job queue that in turn distributes them to
