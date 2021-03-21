@@ -1317,18 +1317,16 @@ and \pkg{furrr} (top 1.4\%), the corresponding number of packages are
 73 and 44, respectively.
 
 Besides supporting these traditional parallelization methods, the
-future framework is also used elsewhere.  For example, the workflow
-package \CRANpkg{drake}~\citep{Landau_2018} implements ``a pipeline
-toolkit for reproducible computation at scale''.  It works by defining
-make-like targets and dependencies that can be resolved in parallel
-using any type of future backend.
-%
+future framework is also used as an infrastructure elsewhere.  For
+example, the workflow package \CRANpkg{drake}~\citep{Landau_2018}
+implements ``a pipeline toolkit for reproducible computation at
+scale''.  It works by defining make-like targets and dependencies that
+can be resolved in parallel using any type of future backend.
 Another prominent example is the \CRANpkg{shiny}
 package~\citep{CRAN:shiny}, which implements support
 for \dfn{asynchronous processing} in Shiny application via futures.
 Asynchronous processing helps to prevent long-running tasks from
 blocking the user interface.
-%
 Similarly, the \CRANpkg{plumber} package~\citep{CRAN:plumber}, which
 automatically generates and serves HTTP API from R functions, uses
 futures to serve asynchronous web APIs and process tasks in parallel.
