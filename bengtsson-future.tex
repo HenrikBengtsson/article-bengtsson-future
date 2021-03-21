@@ -1319,6 +1319,9 @@ toolkit for reproducible computation at scale''.  It works by defining
 make-like targets and dependencies that can be resolved in parallel
 using any type of future backend.
 %
+Similarly, the \CRANpkg{plumber}~\citep{CRAN:plumber} package, which
+automatically generates and serves HTTP API from R functions, uses
+futures to serve asynchronous web API and process tasks in parallel.
 Another prominent example is the \CRANpkg{shiny}~\citep{CRAN:shiny}
 package, which implements support for \dfn{asynchronous processing} in
 Shiny application via futures.  Asynchronous processing helps to
