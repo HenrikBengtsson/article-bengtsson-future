@@ -217,13 +217,14 @@ on
 focus on \emph{what} to parallelize, which is a design pattern of
 great value with important implications on how to design, write, and
 maintain parallel code. The large uptake of \pkg{foreach} since it was
-first released supports this. As of March 2021, there are nearly 800
-packages on CRAN and Bioconductor that directly depend on
-\pkg{foreach}. Another advantage of the separation between the
-map-reduce frontend API and parallel backend (foreach adaptors) is
-that new types of parallel backends can be introduced without the need
-to make updates to the \pkg{foreach} package. This has led to
-third-party developers have contributed additional foreach adaptors,
+first released supports this. As of March 2021, \pkg{foreach} is among
+the top-0.9\% most downloaded package on CRAN and there are nearly 800
+packages on CRAN and Bioconductor that directly depend on it.  Another
+advantage of the separation between the map-reduce frontend API and
+parallel backend (foreach adaptors) is that new types of parallel
+backends can be introduced without the need to make updates to
+the \pkg{foreach} package. This has led to third-party developers have
+contributed additional foreach adaptors,
 e.g.\ \CRANpkg{doMPI}~\citep{CRAN:doMPI} and
 \CRANpkg{doRedis}~\citep{CRAN:doRedis}.
 
@@ -1306,11 +1307,14 @@ performing compute hosts.
 \label{use-of-the-future-framework}
 
 The \pkg{future} package was released on CRAN in 2015. The uptake has
-grown steadily ever since.  As of March 2021, there are 166 packages
-on CRAN and Bioconductor that directly depend on the \pkg{future}
-package.  For map-reduce parallelization packages \pkg{future.apply}
-and \pkg{furrr}, the corresponding number of packages are 73 and 44,
-respectively.
+grown steadily ever since.  As of March 2021, \pkg{future} is among
+the top-1.0\% most downloaded package on CRAN\footnote{The download
+rankings are based on the download logs for the RStudio CRAN mirror.}
+and there are 166 packages on CRAN and Bioconductor that directly
+depend on it.  For map-reduce parallelization
+packages \pkg{future.apply} (top-2.0\% most downloaded)
+and \pkg{furrr} (top 1.4\%), the corresponding number of packages are
+73 and 44, respectively.
 
 Besides supporting these traditional parallelization methods, the
 future framework is also used elsewhere.  For example, the workflow
