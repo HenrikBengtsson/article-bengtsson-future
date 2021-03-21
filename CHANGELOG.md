@@ -1,6 +1,6 @@
 # Changelog
 
-## Under development (2021-03-19)
+## Under development (2021-03-21)
 
 * Add a brief introduction to parallelization in R and a few references to
   the history and current solutions.  Clarify that futures operate on the
@@ -19,7 +19,8 @@
 
 * Add subsection on overhead.
 
-* Mentioning marshaling.
+* Mentioning marshaling as a potential solution to some types of
+  non-exportable objects.
 
 
 ## arXiv_2008.00553v2 (2020-08-24)
