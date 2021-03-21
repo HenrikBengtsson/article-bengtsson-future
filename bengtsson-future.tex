@@ -1460,22 +1460,20 @@ futures to be processed at a later time, in another context, or to
 transfer them to a job queue that in turn distributes them to
 appropriate compute resources.
 
-The problem of not being able to use all types of objects as-is in
+The problem of not being able to export all types of objects as-is in
 parallel processing can be a blocker.  It turns out that for a subset
 of these we could use \dfn{marshaling} to encode them before
 serializing them such that a working clone can be reconstructed after
 unserializing and \dfn{unmarshaling}.  As an example, a read-only file
 connection can marshaled by recording its filename and file position
 so that the parallel worker could open its own read-only connection
-for same file at the same position.  Although prepared for by base R
-functions \code{serialize()} and \code{unserialize()} via
-argument \code{refhook}, marshaling is rarely used concept in R,
-possibly because there is no standard convention for package
-developers to rely on. Ideally such a mechanism would allow package
-developers to register custom \code{marshal()} and \code{unmarshal()}
-methods for their data types making them automatically applicable in
-parallelization without prior knowledge of what objects being
-transferred.
+for the same file at the same position.  Marshaling is a rarely used
+concept in R, possibly because there is no standard convention for
+package developers to rely on. Ideally such a mechanism would allow
+package developers to register custom \code{marshal()}
+and \code{unmarshal()} methods for their data types, making them
+automatically applicable in parallelization without prior knowledge of
+what objects being transferred.
 
 Other than setting the backend via \code{plan()}, it is not possible
 to direct a particular future to a specific backend type based on the
