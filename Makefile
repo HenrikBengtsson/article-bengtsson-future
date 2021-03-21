@@ -30,6 +30,19 @@ clean:
 spell:
 	hunspell -t "$(NAME).tex"
 
+## ---------------------------------------------------------
+## The R Journal
+## ---------------------------------------------------------
+submit: $(NAME).tar.gz
+
+# What to submit to the R Journal
+$(NAME).tar.gz: RJwrapper.pdf $(INCLUDES) #$(NAME)-coverletter.pdf
+	tar -czf "$@" $^
+
+
+## ---------------------------------------------------------
+## arXiv
+## ---------------------------------------------------------
 arxiv: arxiv.tar.gz
 
 view-arxiv: arxiv/arxiv-$(NAME).pdf
@@ -49,9 +62,4 @@ arxiv/arxiv-$(NAME).pdf: arxiv/arxiv-$(NAME).tex
 # https://arxiv.org/help/submit_tex#wegotem
 arxiv.tar.gz: arxiv/arxiv-$(NAME).pdf
 	tar -czf "$@" arxiv/arxiv-$(NAME).tex arxiv/arxiv-$(NAME).bbl arxiv/RJournal.sty
-
-
-# What to submit to the R Journal
-$(NAME).tar.gz: RJwrapper.pdf $(INCLUDES) #$(NAME)-coverletter.pdf
-	tar -czf "$@" $^
 

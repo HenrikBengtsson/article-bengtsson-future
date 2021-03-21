@@ -972,9 +972,9 @@ plan(future.callr::callr, workers = 4)
 Another example
 is \CRANpkg{future.batchtools}~\citep{CRAN:future.batchtools}, which
 implements several types of backends on top of the
-\CRANpkg{batchtools}~\citep{Lang_etal_2017}.  Most notably, it provides
-backends that resolve futures distributed on high-performance compute
-(HPC) environments by submitting the futures as jobs to a job
+\CRANpkg{batchtools}~\citep{Lang_etal_2017} package.  Most notably, it
+provides backends that resolve futures distributed on high-performance
+compute (HPC) environments by submitting the futures as jobs to a job
 scheduler, e.g.\ Slurm, SGE, and Torque/PBS:
 \begin{example}
 plan(future.batchtools::batchtools_slurm)
