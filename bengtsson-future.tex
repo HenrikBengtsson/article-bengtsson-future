@@ -96,6 +96,7 @@ y <- mclapply(xs, function(x) {
 
 library(parallel)
 workers <- makeCluster(2)
+
 clusterExport(workers, "slow_fcn")
 xs <- 1:10
 y <- parLapply(workers, xs, function(x) {
@@ -177,16 +178,11 @@ developer uses \code{parLapply()}, they could write their code such
 that the end-user can specify what type of snow cluster to use, e.g.\
 by respecting what the end-user set
 via \code{setDefaultCluster(workers)}.  This provides the end-user
-with more, although in practice%
-\footnote{The \pkg{parallel} package does not export generic functions
-\code{sendData()} and \code{recvData()}. If these would be exported, then
-it would be possible to implement also other types of ``snow'' cluster
-backends.}
-limited, options on how and where to execute code in
-parallel. Unfortunately, it is rather common that the cluster type is
-hard-coded inside packages giving end-users little to no control over
-the parallelization mechanism, other than possibly the number of cores
-to use.
+with more, although in practice limited, options on how and where to
+execute code in parallel. Unfortunately, it is rather common that the
+cluster type is hard-coded inside packages giving end-users little to
+no control over the parallelization mechanism, other than possibly the
+number of cores to use.
 
 \subsection{Map-reduce parallelization with more control for the end-user}
 \label{map-reduce-parallelization-with-more-control-for-the-end-user}
@@ -206,6 +202,7 @@ library(foreach)
 library(doParallel)
 workers <- parallel::makeCluster(2)
 registerDoParallel(workers)
+
 xs <- 1:10
 y <- foreach(x = xs) %dopar% {
   slow_fcn(x)
@@ -261,12 +258,12 @@ framework works and plenty of testing. This lack of strict behavior is
 unfortunate and might have grown out of a strategy of wanting to keep
 things flexible. On the upside, steps have recently\footnote{See
 the \pkg{foreach} issue tracker
-at \url{https://github.com/RevolutionAnalytics/foreach}.}
-been taken toward making the behavior more consistent across foreach
-backends, suggesting that it is possible to remove several of these
-weaknesses through a process of deprecating and removing unwanted side
-effects over several release cycles in close collaboration with
-developers.
+at \url{https://github.com/RevolutionAnalytics/foreach}.}  been taken
+toward making the behavior more consistent across foreach backends,
+suggesting that it is possible to remove several of these weaknesses
+through a process of deprecating and removing unwanted side effects
+over several release cycles in close collaboration with package
+developers currently relying on such backend-specific properties.
 
 
 \section{The future framework}
@@ -282,6 +279,7 @@ allow us to implement such higher-level functions elsewhere.
 \subsection{Three atomic constructs that unify common parallel design patterns}
 \label{low-level-generalized-parallelization-model}
 
+\begin{samepage}
 The \dfn{Future API} comprises three fundamental constructs:
 \begin{itemize}
 \item
@@ -294,6 +292,7 @@ The \dfn{Future API} comprises three fundamental constructs:
   \code{r\,<-\,resolved(f)} : TRUE if future is resolved,
   otherwise FALSE (non-blocking)
 \end{itemize}
+\end{samepage}
 %
 To help understand what a future is, let us start with R's assignment
 construct:
@@ -1136,7 +1135,7 @@ processing.  This is discussed futher in the `Future work' section.
 \subsection{Overhead}
 \label{overhead}
 
-With parallel processing comes overhead.  Typically sources of added
+With parallel processing comes overhead.  Typically, sources of added
 processing time are from spawning new parallel processes,
 sending instructions and globals to the workers, querying workers for
 results, and receiving results (Figure~\ref{figure:future-4workers}).
@@ -1147,28 +1146,28 @@ parallelization is beneficial, and for which parallel backends,
 depends on what is being parallelized.
 
 As with other parallel solutions, in the future framework, overhead
-differ between parallel backends.  Certain parallel backends, such as
+differs between parallel backends.  Certain parallel backends, such as
 forked processing (``multicore''), are better suited for low-latency
 requirements, whereas others, such as distributed processing
 (``cluster'' and ``batchtools''), are better suited for
 large-throughput requirements.  For example, many fast operations
-applied to a single large data frame should probably be parallized on
-the local computer with forked processing, if supported, rather than
-being distributed on a compute cluster running in the cloud.  In
+applied to a single large data frame should probably be parallelized
+on the local computer with forked processing, if supported, rather
+than being distributed on a compute cluster running in the cloud.  In
 contrast, processing hundreds of data files may be completed sooner if
 distributed out to multiple computers (with access to the same file
-system), for instance via a job scheduler, rather than being processed
+system), for instance, via a job scheduler, rather than being processed
 in parallel on the local machine.
 
-In addition to the overhead added by the parallel backend, each future
+Besides the overhead added by the parallel backend, each future
 regardless of backend has a baseline overhead.  Specifically, there is
 a small overhead from the static-code inspection used to identify
 global variables, from exception handling needed to capture and relay
 errors, and from capturing and relaying standard output and
 conditions.  Except for the error-handling overhead, these can all be
 avoided via certain \code{future()} arguments, e.g. by manually
-specifying globals needed and by disabling the relaying of output
-and conditions.
+specifying globals needed and by disabling the relaying of output and
+conditions.
 
 R has several profiling tools that can help identify bottlenecks and
 overhead in computational expensive tasks, e.g. \code{system.time()}
@@ -1177,12 +1176,12 @@ of the \pkg{base} package,
 \CRANpkg{bench}~\citep{CRAN:bench},
 \code{Rprof()} of the \pkg{utils} package,
 \CRANpkg{proffer}~\citep{CRAN:proffer}, and
-\CRANpkg{profvis}~\citep{CRAN:profvis}.  These tools can also be
-used to identify different sources of overhead in the parallelization
-framework itself, including the ones in the future ecosystem.  It is
-on the roadmap to make futures collect and report on some of these
-benchmarks automatically in order to help developers optimize their
-code and for end-users to choose a proper backend.
+\CRANpkg{profvis}~\citep{CRAN:profvis}.  These tools can also identify
+the different sources of overhead in the parallelization framework
+itself, including the ones in the future ecosystem.  It is on the
+roadmap to make futures collect and report on some of these benchmarks
+automatically in order to help developers optimize their code and for
+end-users to choose a proper backend.
 
 
 \section{Results}
