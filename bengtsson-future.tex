@@ -1485,10 +1485,10 @@ f <- future({ ... }, resources = c("r:3.2.*", "mount:/data", "!fork"))
 \end{example}
 %
 could be one way to specify that this future has to be resolved with R
-3.2 on a machine with a \code{/data} mount point and forked parallel
-processing must not be used.  Some resources may be implicit based on
-exported globals, e.g. a specific file required when exporting a file
-connection via marshaling.
+3.2 on a machine with a \code{/data} mount point and that forked
+parallel processing must not be used.  Some resources may be implicit
+based on exported globals, e.g. a specific file required when
+exporting a file connection via marshaling.
 
 All the above is on the roadmap for the future framework.
 
