@@ -4,17 +4,17 @@
 
 * Add a brief introduction to parallelization in R and a few references to
   the history and current solutions.  Clarify that futures operate on the
-  R level, which rules out various parallelization framework that are only
+  R level, which rules out various parallelization frameworks that are only
   accessible at the native-code level.
 
 * Add a figure illustrating how lapply() can be used with futures and how
   they parallelize across for workers.
 
-* Mention the new 'parallelly' package, which include some of the functions
-  that previously was in 'future'.
+* Mention the new 'parallelly' package, which includes some of the functions
+  that previously were in 'future'.
 
 * Drop the term 'sequential consistency' (Lamport, 1979), which is a term
-  with a very specific meaning, and not in the lose sense that it was used
+  with a very specific meaning, and not in the loose sense that it was used
   in the article.
 
 * Add subsection on overhead.
