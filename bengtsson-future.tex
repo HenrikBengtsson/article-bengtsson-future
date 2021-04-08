@@ -41,9 +41,9 @@ used solutions.  For a overview of current parallel techniques
 available to R developers see \citet{Eddelbuettel2020} and the
 \href{https://CRAN.R-project.org/view=HighPerformanceComputing}{\emph{High-Performance and Parallel Computing with R}} CRAN Task View.
 %
-The options for parallelization in R can be grouped broadly into those
-that can be used to parallelize R code, such as what
-the \pkg{parallel} package provides, and those that are used to
+The options for parallelizing \emph{computations} in R can be grouped
+broadly into those that can be used to parallelize R code, such as
+what the \pkg{parallel} package provides, and those that are used to
 parallelize native code, such C, C++, and Fortran, and are often not
 specific to R itself.  For example, multi-threaded processing is an
 efficient parallelization technique, which operates at the core of the
@@ -51,8 +51,20 @@ operating system and the CPU and allows for updating shared memory in
 parallel and more, that is not available at the R level.  In contrast,
 parallelization at the R level takes place at a higher-level, which we
 refer to as \dfn{multi-process} parallelization and which is a coarser
-type of parallelization.  This article proposes a parallelization
-solution at the R level.
+type of parallelization.
+%
+In addition to parallelize computations, there are also efforts in R
+for working with \emph{parallel data structure},
+e.g. \CRANpkg{sparklyr}~\citep{CRAN:sparklyr}, and
+the \dfn{Programming with Big Data in R} (pbdR)
+project~\citep{project:pbdR}.  By pre-distributing data and storing
+them on parallel workers, the overhead from passing data on-the-fly in
+parallel processing can be decreased, resulting in an overall faster
+processing time but also lower and more fine-tuned memory
+requirements.
+%
+This article proposes a solution for \emph{parallelizing computations
+at the R level}.
 
 The \CRANpkg{future} package~\citep{CRAN:future} aims to provide a
 unifying, generic, minimal application protocol interface (API) to
