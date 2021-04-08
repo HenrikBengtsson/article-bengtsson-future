@@ -40,7 +40,7 @@ probably provides the most, either directly or indirectly, commonly
 used solutions.  For a overview of current parallel techniques
 available to R developers see \citet{Eddelbuettel2020} and the
 \href{https://CRAN.R-project.org/view=HighPerformanceComputing}{\emph{High-Performance and Parallel Computing with R}} CRAN Task View.
-%
+
 The options for parallelizing \emph{computations} in R can be grouped
 broadly into those that can be used to parallelize R code, such as
 what the \pkg{parallel} package provides, and those that are used to
@@ -53,14 +53,14 @@ parallelization at the R level takes place at a higher-level, which we
 refer to as \dfn{multi-process} parallelization and which is a coarser
 type of parallelization.
 %
-In addition to parallelize computations, there are also efforts in R
-for working with \emph{parallel data structure}, e.g.
+In addition to parallel computations, there are also efforts in R for
+working with \emph{parallel data structure}, e.g.
 \CRANpkg{sparklyr}~\citep{CRAN:sparklyr}, and the
 \dfn{Programming with Big Data in R} (pbdR) project~\citep{Schmidt2017}.
-By pre-distributing data and storing them on parallel workers, the
-overhead from passing data on-the-fly in parallel processing can be
-decreased, resulting in an overall faster processing time but also
-lower and more fine-tuned memory requirements.
+By pre-distributing data and storing them on, or near, parallel
+workers, the overhead from passing data on-the-fly in parallel
+processing can be decreased, resulting in an overall faster processing
+time but also lower and more fine-tuned memory requirements.
 %
 This article proposes a solution for \emph{parallelizing computations
 at the R level}.
@@ -92,19 +92,23 @@ equivalent.}
 function \code{lapply()} in the \pkg{base} package.  Here is an
 example showing them calling a ``slow'' function on each element in a
 vector using two parallel workers:
-%
+
 \begin{example}
 xs <- 1:10
 y <- lapply(xs, function(x) {
   slow_fcn(x)
 })
+\end{example}
 
+\begin{example}
 library(parallel)
 xs <- 1:10
 y <- mclapply(xs, function(x) {
   slow_fcn(x)
 }, mc.cores = 2)
+\end{example}
 
+\begin{example}
 library(parallel)
 workers <- makeCluster(2)
 clusterExport(workers, "slow_fcn")
