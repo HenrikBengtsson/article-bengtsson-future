@@ -54,14 +54,13 @@ refer to as \dfn{multi-process} parallelization and which is a coarser
 type of parallelization.
 %
 In addition to parallelize computations, there are also efforts in R
-for working with \emph{parallel data structure},
-e.g. \CRANpkg{sparklyr}~\citep{CRAN:sparklyr}, and
-the \dfn{Programming with Big Data in R} (pbdR)
-project~\citep{project:pbdR}.  By pre-distributing data and storing
-them on parallel workers, the overhead from passing data on-the-fly in
-parallel processing can be decreased, resulting in an overall faster
-processing time but also lower and more fine-tuned memory
-requirements.
+for working with \emph{parallel data structure}, e.g.
+\CRANpkg{sparklyr}~\citep{CRAN:sparklyr}, and the
+\dfn{Programming with Big Data in R} (pbdR) project~\citep{Schmidt2017}.
+By pre-distributing data and storing them on parallel workers, the
+overhead from passing data on-the-fly in parallel processing can be
+decreased, resulting in an overall faster processing time but also
+lower and more fine-tuned memory requirements.
 %
 This article proposes a solution for \emph{parallelizing computations
 at the R level}.
