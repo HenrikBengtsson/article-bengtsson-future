@@ -38,7 +38,7 @@ decade~\citep{Schmidberger2009}.  R gained built-in support via
 the \pkg{parallel} package in version 2.14.0 (2011), which to date
 probably provides the most, either directly or indirectly, commonly
 used solutions.  For a overview of current parallel techniques
-available to R developers see \citet{Eddelbuettel2020} and the
+available to R developers, see \citet{Eddelbuettel2020} and the
 \href{https://CRAN.R-project.org/view=HighPerformanceComputing}{\emph{High-Performance and Parallel Computing with R}} CRAN Task View.
 
 The options for parallelizing \emph{computations} in R can be grouped
@@ -137,10 +137,10 @@ support, rely on a cluster of R background workers for
 parallelization. It works by the main R process and the workers
 communicate tasks and results over a communication channel. The
 default and most commonly used type of cluster is SOCK, which MS
-Windows also supports, communicates via \emph{socket connections}. Like
-most other cluster types, SOCK clusters require developers to manually
-identify and export packages and global objects to the workers by
-calling \code{clusterEvalQ()} and
+Windows also supports, and it communicates via \emph{socket
+connections}. Like most other cluster types, SOCK clusters require
+developers to manually identify and export packages and global objects
+to the workers by calling \code{clusterEvalQ()} and
 \code{clusterExport()}, before calling \code{parLapply()}, which
 increases the barrier to use them.
 
@@ -157,7 +157,7 @@ framework to target, a decision which often has to be done early in
 the development cycle. This means deciding on what \emph{type of
 parallelism} to support, e.g.\ forked processing via \code{mclapply()}
 or SOCK clusters via \code{parLapply()}. This decision is critical
-because it limits the end-user's options and any change, later on,
+because it limits the end-user's options, and any change, later on,
 might be expensive because of, for instance, having to rewrite and
 retest part of the codebase. A developer who wishes to support
 multiple parallel backends has to implement support for each of them
@@ -183,7 +183,8 @@ parallelization method, if at all.
 Functions like \code{parLapply()} partly address the problem of
 supporting multiple parallelization frameworks because they support
 various types of parallel cluster backends referred to as ``snow''
-clusters (from their origin in the \pkg{snow} package), e.g.
+clusters (short for \dfn{Simple Network of Workstations} and from
+their origin in the \pkg{snow} package), e.g.
 \code{workers\,<-\,makeCluster(4, type\,=\,"FORK")} sets up a cluster that
 parallelizes using forked processing, and
 \code{workers\,<-\,makeCluster(4, type\,=\,"MPI")} sets up a cluster that
@@ -650,7 +651,7 @@ communicate these conditions from the worker back to the main R
 session, while the worker still processes the future.  When
 non-supporting backends are used, these conditions are relayed
 together with other captured conditions at the very end when the
-future is resolved.
+future has been resolved.
 
 \emph{Comment:} Contrary to the standard output, due to limitations in
 R\footnote{See \url{https://github.com/HenrikBengtsson/Wishlist-for-R/issues/55}},
@@ -784,15 +785,15 @@ By replacing the above with:
 \begin{example}
 v %<-% expr
 \end{example}
-the right-hand-side (RHS) expression \code{expr} will be evaluated
-using a future whose value is assigned to the left-hand-side (LHS)
-variable \code{v} as a \emph{promise}\footnote{The type of promises
-that R supports should not be mistaken for the type of promises as
-defined by the \CRANpkg{promises}~\citep{CRAN:promises} package,
-which, together with futures, is used for asynchronous processing in
-Shiny applications.}.  Because the LHS is a promise, the value of the
-future will not be assigned to it until we attempt to access the
-promise.  As soon as we try to use \code{v}, say,
+the RHS expression \code{expr} will be evaluated using a future whose
+value is assigned to the LHS variable \code{v} as a
+\emph{promise}\footnote{The type of promises that R supports should
+not be mistaken for the type of promises as defined by the
+\CRANpkg{promises}~\citep{CRAN:promises} package, which, together with
+futures, is used for asynchronous processing in Shiny applications.}.
+Because the LHS is a promise, the value of the future will not be
+assigned to it until we attempt to access the promise.  As soon as we
+try to use \code{v}, say,
 \begin{example}
 y <- sqrt(v) 
 \end{example}
@@ -849,13 +850,13 @@ vs <- as.list(vs)
 A problem with parallel processing in software stacks like the R
 package hierarchy is the risk of overloading the CPU cores due to
 nested parallelism. For instance, assume that package \pkg{PkgA} calls
-\code{estimate()} of \pkg{PkgB} in parallel using all $N$ cores on the
+\code{PkgB::estimate()} in parallel using all $N$ cores on the
 current machine. Initially, the \code{estimate()} function was
-implemented to run sequentially, but, in a recent release, it was
-updated to parallelize internally using all $N$ cores.  Without
+implemented to run sequentially, but, in a recent \pkg{PkgB} release,
+it was updated to parallelize internally using all $N$ cores.  Without
 built-in protection, this update now risks running $N^2$ parallel
-workers when \pkg{PkgA} is used, possibly without the awareness of the
-maintainer of \pkg{PkgB}.
+workers when \pkg{PkgA} is used, possibly without the awareness of
+either maintainer.
 
 The \pkg{future} package has built-in protection against nested
 parallelism. This works by configuring each worker to run in
@@ -867,8 +868,7 @@ and \pkg{PkgB} parallelize using the future framework, the nested
 parallelism above will run with a total of $N$ cores, not $N^2$ cores.
 This will also be true for non-future code that respects such
 settings, e.g.\ when \pkg{PkgB} uses \code{parallel::mclapply()} with
-the default
-\code{mc.cores} argument.
+the default \code{mc.cores} argument.
 
 Nested parallelism can be configured by the end-user
 via \code{plan()}.  For example, to use two workers for the first
@@ -900,9 +900,9 @@ plan(list(
   multisession
 ))
 \end{example}
-where the default \code{availableCores()} assures that the number of
-multisession workers used respects what the scheduler assigns to each
-job.
+where the default \code{workers = availableCores()} assures that the
+number of multisession workers used respects what the scheduler
+assigns to each job.
 
 
 \subsection{Future backends}
@@ -934,7 +934,7 @@ plan(multicore, workers = 4)
 %
 To resolve futures via \emph{any} type of ``snow'' cluster, use
 the \code{cluster} backend.  For example, to use a traditional SOCK
-cluster or an MPI cluster, use:
+cluster or an MPI cluster, use either of:
 \begin{example}
 workers <- parallel::makeCluster(4)
 plan(cluster, workers = workers)
@@ -1100,11 +1100,11 @@ When saving an R object to file, or sending it to a parallel worker, R
 uses a built-in technique called \dfn{serialization}, which allows a
 complex object structure to be sent as a stream of bytes to its
 destination, so it later can be reconstructed
-via \dfn{unserialization}.  This is ability is fundamental to all
-parallel processing, the exception being shared-memory strategies such
-as forked parallel processing.  For example, this is how future
-expression and variables are sent to parallel workers and how results
-are returned.
+via \dfn{unserialization}.  The ability to serialize objects is
+fundamental to all parallel processing, the exception being
+shared-memory strategies such as forked parallel processing.  For
+example, this is how future expression and variables are sent to
+parallel workers and how results are returned.
 
 However, some types of objects are by design bound to the R session
 where they are created and cannot be used as-is in other R processes.
@@ -1332,16 +1332,16 @@ packages are 73 and 45, respectively.
 
 Besides supporting these traditional parallelization methods, the
 future framework is also used as an infrastructure elsewhere.  For
-example, the workflow package \CRANpkg{drake}~\citep{Landau_2018}
-implements ``a pipeline toolkit for reproducible computation at
-scale''.  It works by defining make-like targets and dependencies that
-can be resolved in parallel using any type of future backend.
-Another prominent example is the \CRANpkg{shiny}
-package~\citep{CRAN:shiny}, which implements support
-for \dfn{asynchronous processing} in Shiny application via futures.
-Asynchronous processing helps to prevent long-running tasks from
-blocking the user interface.
-Similarly, the \CRANpkg{plumber} package~\citep{CRAN:plumber}, which
+example, the workflow package \CRANpkg{targets}~\citep{Landau_2021},
+and its predecessor \CRANpkg{drake}~\citep{Landau_2018}, implements
+``a pipeline toolkit for reproducible computation at scale''.  They
+work by defining make-like targets and dependencies that can be
+resolved in parallel using any type of future backend.  Another
+prominent example is the \CRANpkg{shiny} package~\citep{CRAN:shiny},
+which implements support for \dfn{asynchronous processing} in Shiny
+application via futures.  Asynchronous processing helps to avoid
+long-running tasks from blocking the user interface.  Similarly,
+the \CRANpkg{plumber} package~\citep{CRAN:plumber}, which
 automatically generates and serves HTTP API from R functions, uses
 futures to serve asynchronous web APIs and process tasks in parallel.
 
@@ -1420,7 +1420,8 @@ For clarification, consider the following \code{lapply()} construct
 that evaluates \code{slow\_fcn(x)} for ten elements, each resolved via
 a unique \dfn{lazy} future:
 \begin{example}
-fs <- lapply(1:10, function(x) future({
+xs <- 1:10
+fs <- lapply(xs, function(x) future({
   slow_fcn(x)
 }, lazy = TRUE))
 \end{example}
