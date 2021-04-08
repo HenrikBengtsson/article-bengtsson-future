@@ -34,8 +34,8 @@ tasks.  As the size of these tasks and access to more CPU cores tend
 to grow over time, so does the demand for parallel-processing
 solutions.  In R, there exist several frameworks for running code in
 parallel, many dating back more than a
-decade~\citep{Schmidberger2009}.  R gained built-in support
-via \pkg{parallel} package with version 2.14.0 (2011), which to date
+decade~\citep{Schmidberger2009}.  R gained built-in support via
+the \pkg{parallel} package in version 2.14.0 (2011), which to date
 probably provides the most, either directly or indirectly, commonly
 used solutions.  For a overview of current parallel techniques
 available to R developers see \citet{Eddelbuettel2020} and the
@@ -54,7 +54,7 @@ refer to as \dfn{multi-process} parallelization and which is a coarser
 type of parallelization.
 %
 In addition to parallel computations, there are also efforts in R for
-working with \emph{parallel data structure}, e.g.
+working with \emph{parallel data structures}, e.g.
 \CRANpkg{sparklyr}~\citep{CRAN:sparklyr}, and the
 \dfn{Programming with Big Data in R} (pbdR) project~\citep{Schmidt2017}.
 By pre-distributing data and storing them on, or near, parallel
@@ -129,8 +129,8 @@ main R process' workspace, making it straightforward to replace a
 sequential
 \code{lapply()} call with a parallel \code{mclapply()} call. This
 has made it popular among Linux and macOS developers. On MS Windows,
-which does not support forked processing, \code{mclapply()} falls back
-to using \code{lapply()} internally.
+where R does not support forked processing, \code{mclapply()} falls
+back to using \code{lapply()} internally.
 
 The \code{parLapply()} set of functions, which all operating systems
 support, rely on a cluster of R background workers for
@@ -1144,7 +1144,7 @@ external pointers whenever used in a future.
 
 Finally, it is theoretically possible to restructure some of the
 ``non-exportable'' object types such that they can be used in parallel
-processing.  This is discussed futher in the `Future work' section.
+processing.  This is discussed further in the `Future work' section.
 
 
 \subsection{Overhead}
@@ -1407,7 +1407,7 @@ harmonize the behavior of futures in these packages, a new helper
 package \pkg{future.mapreduce} that implements these common tasks will
 be introduced, relieving these packages from those tasks.  This will
 also have the advantage of making it even easier to implement other
-types of map-reduce APIs on top futures.
+types of map-reduce APIs on top of futures.
 
 Having said this, in a longer perspective, it might be possible to
 remove the need for these future-based map-reduce APIs, which
