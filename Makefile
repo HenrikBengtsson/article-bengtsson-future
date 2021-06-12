@@ -1,7 +1,8 @@
 SHELL=bash
 NAME=bengtsson-future
 
-INCLUDES=RJwrapper.tex figures/future-lapply-4workers.pdf $(NAME).tex $(NAME).bib
+FIGURES=figures/future-lapply-4workers.pdf
+INCLUDES=RJwrapper.tex $(FIGURES) $(NAME).tex $(NAME).bib
 
 render: RJwrapper.pdf
 
@@ -59,9 +60,10 @@ arxiv: arxiv.tar.gz
 view-arxiv: arxiv/arxiv-$(NAME).pdf
 	evince "$<" &
 
-arxiv/arxiv-$(NAME).tex: RJwrapper.pdf
-	mkdir -p arxiv
+arxiv/arxiv-$(NAME).tex: RJwrapper.pdf $(FIGURES)
+	mkdir -p arxiv/figures
 	cp RJournal.sty arxiv
+	cp $(FIGURES) arxiv/figures
 	cp RJwrapper.bbl arxiv/arxiv-$(NAME).bbl
 	cat <(sed -E '/\\input\{.*\}/,$$d' < RJwrapper.tex) <(echo "\renewcommand{\backref}[1]{}\pagestyle{plain}") "$(NAME).tex" <(sed -E '1,/\\input\{.*\}/d' < RJwrapper.tex) > "$@"
 	sed -i 's/\\end{document}/\\pagestyle{plain}\n\\end{document}/' "$@"
@@ -71,6 +73,6 @@ arxiv/arxiv-$(NAME).pdf: arxiv/arxiv-$(NAME).tex
 	cd "$(@D)"; pdflatex "$(<F)"; pdflatex "$(<F)"
 
 # https://arxiv.org/help/submit_tex#wegotem
-arxiv.tar.gz: arxiv/arxiv-$(NAME).pdf
-	tar -czf "$@" arxiv/arxiv-$(NAME).tex arxiv/arxiv-$(NAME).bbl arxiv/RJournal.sty
+arxiv.tar.gz: arxiv/arxiv-$(NAME).pdf arxiv/$(FIGURES)
+	tar -czf "$@" arxiv/arxiv-$(NAME).tex arxiv/arxiv-$(NAME).bbl arxiv/RJournal.sty arxiv/$(FIGURES)
 
