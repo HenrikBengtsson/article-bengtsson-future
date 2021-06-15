@@ -1,6 +1,6 @@
 # Changelog
 
-## Under development (2021-03-21)
+## arXiv_2008.00553v3 (2021-06-12) == The R Journal (2021-06-08)
 
 * Add a brief introduction to parallelization in R and a few references to
   the history and current solutions.  Clarify that futures operate on the
