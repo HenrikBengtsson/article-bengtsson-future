@@ -16,37 +16,62 @@ Changelog: [CHANGELOG](https://github.com/HenrikBengtsson/article-bengtsson-futu
 
 
 
-Please cite this article when using the **[future]** package or the future framework as:
+Please cite this article when using the **[future](https://future.futureverse.org)** package or the future framework as:
 
 ```
-@Misc{bengtsson-future,
+@article{bengtsson-future,
   author = {Henrik Bengtsson},
-  title = {A Unifying Framework for Parallel and Distributed Processing in {R} using Futures},
+  title = {{A Unifying Framework for Parallel and Distributed Processing
+          in R using Futures}},
   year = {2021},
-  month = {jun},
-  eprint = {2008.00553},
-  archiveprefix = {arXiv},
-  primaryclass = {cs.DC},
-  url = {https://arxiv.org/abs/2008.00553},
+  journal = {{The R Journal}},
+  doi = {10.32614/RJ-2021-048},
+  url = {https://journal.r-project.org/archive/2021/RJ-2021-048/index.html}
 }
 ```
 
+## Instructions
+
+### Edit and view locally
+
 To compile the LaTeX document ('bengtsson-future.tex') into a PDF ('RJwrapper.pdf'), do:
+
 ```sh
 $ make
 ```
 
+To view it locally:
+
+```sh
+$ make view
+```
+
 To cleanup and start from scratch, do:
+
 ```sh
 $ make clean
 ```
 
+
+### The R Journal
+
+To build a tarball to be sent to The R Journal, do:
+
+```sh
+$ make submit
+```
+
+
+### arXiv
+
 To build the arXiv PDF without the R Journal header and footer, do:
+
 ```sh
 $ make arxiv
 ```
 
 To build the minimal tarball to be uploaded to arXiv, do:
+
 ```sh
 $ make arxiv.tar.gz
 ```
