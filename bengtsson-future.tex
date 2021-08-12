@@ -622,7 +622,7 @@ the different classes of conditions being relayed.  Note that all of
 the above works the same way regardless of what future backend is
 used, including when futures are resolved on a remote machine.
 
-Relaying of standard output, messages, warnings, and errors simplifies
+Relaying of standard output, messages, warnings, and errors simplify
 any troubleshooting. For example, existing verbose output helps narrow
 down the location of errors and warnings, which may reveal unexpected
 missing values or vector recycling. Commonly used poor-man debugging,
@@ -1051,7 +1051,7 @@ correctness of all future backends.  Any new future backend developed
 must pass these tests to comply with the \dfn{Future API}.  By
 conforming to this API, the end-user can trust that the backend will
 produce the same correct and reproducible results as any other
-backend, including the ones that the developer have tested on.  Also,
+backend, including the ones that the developer has tested on.  Also,
 by making it the responsibility of the developer to assert that their
 new future backend conforms to the \dfn{Future API}, we relieve other
 developers from having to test that their future-based software works
@@ -1278,7 +1278,7 @@ parallelization methods because ``\code{mclapply()} just works'' is
 significantly lower using futures.  Similarly, the most common way to
 parallelize code is to use multiple cores on the local machine.
 Because it is less common to have access to multiple machines, this
-often prevents developers from considering any other type of
+often prevents developers from considering any other types of
 parallelization, with the risk of locking in end-users with other
 types of resources to only use a single machine.  The chance for a
 package to support multi-host parallelization, including in the cloud
@@ -1521,7 +1521,7 @@ All the above is on the roadmap for the future framework.
 
 The \pkg{future} package is a lightweight R package that provides an
 alternative approach for parallel processing in R.  It implements
-the \dfn{Future API}, which comprise three basic functions, from which
+the \dfn{Future API}, which comprises three basic functions, from which
 richer, higher-level APIs for parallel processing can be constructed.
 Several of these higher-level APIs mimic counterpart map-reduce APIs
 closely, which allow developers to stay with their favorite coding
