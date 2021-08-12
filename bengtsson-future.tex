@@ -1048,7 +1048,7 @@ validates that globals and packages are identified correctly.
 Third, a suite of \dfn{Future API conformance tests} available in the
 \CRANpkg{future.tests} package~\citep{CRAN:future.tests} validates the
 correctness of all future backends.  Any new future backend developed
-must pass these tests to comply with the \dfn{Future API}.  By
+must pass these tests on complying with the \dfn{Future API}.  By
 conforming to this API, the end-user can trust that the backend will
 produce the same correct and reproducible results as any other
 backend, including the ones that the developer has tested on.  Also,
@@ -1311,9 +1311,9 @@ number of workers in other parallel frameworks.  Defaulting to using
 all available cores this way often wreak havoc on multi-tenant compute
 systems by overusing already consumed CPU resources, sometimes
 bringing the system to a halt due to too much context switching and
-memory use.  Unfortunately, this often resulting in a negative
+memory use.  Unfortunately, this often results in a negative
 performance on also other users' processes, and system administrators
-having to spend time on tracking down the root cause of such poorly
+have to spend time tracking down the root cause of such poorly
 performing compute hosts.
 
 
@@ -1454,7 +1454,7 @@ vs <- value(fs)
 \end{example}
 %
 We can mitigate the verbosity in the setup of futures with a helper
-function or syntax sugar.  More importantly, this would making it
+function or syntax sugar.  More importantly, this would make it
 possible to use futures in map-reduce APIs without the need for a
 counterpart parallel implementation.  It would also lower the
 threshold further for adding a thin layer of support for
@@ -1479,9 +1479,9 @@ e.g., \code{retry(\{\,...\,\},\,times\,=\,3,\,on\,=\,"FutureError")}.
 Implementing support for suspending and restarting futures will
 indirectly add support for serializing futures themselves, which is
 only partially supported in the current implementation.  Being able to
-serialize futures opens up for further possibilities such as saving
-futures to be processed at a later time, in another context, or to
-transfer them to a job queue that, in turn, distributes them to
+serialize futures opens up further possibilities such as saving
+futures to be processed at a later time, in another context, or
+transfering them to a job queue that, in turn, distributes them to
 appropriate compute resources.
 
 The problem of not being able to export all types of objects as-is in
@@ -1524,13 +1524,13 @@ alternative approach for parallel processing in R.  It implements
 the \dfn{Future API}, which comprises three basic functions, from which
 richer, higher-level APIs for parallel processing can be constructed.
 Several of these higher-level APIs mimic counterpart map-reduce APIs
-closely, which allow developers to stay with their favorite coding
+closely, allowing developers to stay with their favorite coding
 style also for their parallel needs.  The future framework is designed
 so that the developer does not have to worry about common, critical
 tasks such as exporting globals to workers, using proper parallel RNG,
 and taking care of output, messages, warnings, and errors.  This design
 lowers the barriers to reimplement existing algorithms and methods in
-parallel while avoiding to increase the maintenance burden.  When
+parallel while avoiding increasing the maintenance burden.  When
 using futures, the end-user controls which parallel backend is used,
 while the developer controls what to parallelize.  This is possible
 because all future backends have been validated to conform to
