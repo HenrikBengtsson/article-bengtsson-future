@@ -1131,7 +1131,7 @@ and many more\footnote{See \pkg{future} package vignette
 An indicator of this is when an R object has an \dfn{external
 pointer}, which is used for referencing an internal low-level
 object. This suggests that the object is bound to the current process
-and its lifespan.  Unfortunately, it is not a sufficient indicator,
+and its lifespan.  Unfortunately, it is not a sufficient indicator
 because some objects with external pointers can be exported,
 e.g., \CRANpkg{data.table} objects.  This makes it complicated to
 automate the detection of non-exportable objects and protect against
