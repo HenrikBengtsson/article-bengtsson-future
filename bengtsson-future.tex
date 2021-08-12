@@ -1441,14 +1441,14 @@ called above, these futures are still dormant, regardless of future
 backend used.  Next, assume that there are two parallel workers and
 imagine that we have a function \code{merge()} to merge futures.  This
 would allow us to partition ten futures into only two futures, one per
-workers, and then collect their values;
+workers, and then collect their values:
 \begin{example}
 f1 <- merge(fs[1:5])
 f2 <- merge(fs[6:10])
 vs <- c(value(f1), value(f2))
 \end{example}
 We can simplify this further by encapsulating the above in the S3
-method \code{value()} for \dfn{list}s;
+method \code{value()} for \dfn{list}s:
 \begin{example}
 vs <- value(fs)
 \end{example}
