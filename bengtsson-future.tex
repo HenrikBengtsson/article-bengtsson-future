@@ -1103,7 +1103,7 @@ destination, so it later can be reconstructed
 via \dfn{unserialization}.  The ability to serialize objects is
 fundamental to all parallel processing, the exception being
 shared-memory strategies such as forked parallel processing.  For
-example, this is how future expression and variables are sent to
+example, this is how future expressions and variables are sent to
 parallel workers and how results are returned.
 
 However, some types of objects are by design bound to the R session
@@ -1339,7 +1339,7 @@ work by defining make-like targets and dependencies that can be
 resolved in parallel using any type of future backend.  Another
 prominent example is the \CRANpkg{shiny} package~\citep{CRAN:shiny},
 which implements support for \dfn{asynchronous processing} in Shiny
-application via futures.  Asynchronous processing helps to avoid
+applications via futures.  Asynchronous processing helps to avoid
 long-running tasks from blocking the user interface.  Similarly,
 the \CRANpkg{plumber} package~\citep{CRAN:plumber}, which
 automatically generates and serves HTTP API from R functions, uses
@@ -1441,7 +1441,7 @@ called above, these futures are still dormant, regardless of future
 backend used.  Next, assume that there are two parallel workers and
 imagine that we have a function \code{merge()} to merge futures.  This
 would allow us to partition ten futures into only two futures, one per
-workers, and then collect their values:
+worker, and then collect their values:
 \begin{example}
 f1 <- merge(fs[1:5])
 f2 <- merge(fs[6:10])
