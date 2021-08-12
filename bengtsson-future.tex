@@ -49,9 +49,9 @@ specific to R itself.  For example, multi-threaded processing is an
 efficient parallelization technique which operates at the core of the
 operating system and the CPU and allows for updating shared memory in
 parallel and more, which is not available at the R level.  In contrast,
-parallelization at the R level takes place at a higher-level, which we
-refer to as \dfn{multi-process} parallelization and which is a coarser
-type of parallelization.
+parallelization at the R level takes place at a higher level with a
+coarser type of parallelization, which we refer to as \dfn{multi-process}
+parallelization.
 %
 In addition to parallel computations, there are also efforts in R for
 working with \emph{parallel data structures}, e.g.,
@@ -135,7 +135,7 @@ back to using \code{lapply()} internally.
 The \code{parLapply()} set of functions, which all operating systems
 support, rely on a cluster of R background workers for
 parallelization. It works by the main R process and the workers
-communicate tasks and results over a communication channel. The
+exchanging tasks and results over a communication channel. The
 default and most commonly used type of cluster is SOCK, which MS
 Windows also supports, and it communicates via \emph{socket
 connections}. Like most other cluster types, SOCK clusters require
@@ -881,7 +881,7 @@ plan(list(
 \end{example}
 This will run at most $2 \times 3 = 6$ tasks in parallel on the local
 machine.  Any nested parallelism beyond these two layers will be
-processed in sequential mode, that is, \code{plan(sequential)} is
+processed in sequential mode. That is, \code{plan(sequential)} is
 implicit if not specified.  When argument \code{workers} is not
 specified, it defaults to \code{parallelly::availableCores()}, which
 respect a large number of environment variables and R options
@@ -1226,7 +1226,7 @@ without the developer's attention.  Moreover, code using futures for
 parallelization will be able to take advantage of new backends that
 may be developed several years from now.
 
-Directly related to the separation of code and backends, is that
+Directly related to the separation of code and backends, 
 end-users and developers no longer need to rely on other package
 maintainers to update their code to take advantage of any new types of
 computational resources; updates that otherwise require adding another
