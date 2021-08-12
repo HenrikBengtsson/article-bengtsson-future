@@ -16,10 +16,10 @@ of well-established, high-level map-reduce APIs.  The future ecosystem
 supports exception handling, output and condition relaying, parallel
 random number generation, and automatic identification of globals
 lowering the threshold to parallelize code.  The \dfn{Future API}
-bridges parallel frontends with parallel backends following the
+bridges parallel frontends with parallel backends, following the
 philosophy that end-users are the ones who choose the parallel backend
 while the developer focuses on what to parallelize.  A variety of
-backends exist and third-party contributions meeting the
+backends exist, and third-party contributions meeting the
 specifications, which ensure that the same code works on all backends,
 are automatically supported.  The future framework solves several
 problems not addressed by other parallel frameworks in R.
@@ -46,7 +46,7 @@ broadly into those that can be used to parallelize R code, such as
 what the \pkg{parallel} package provides, and those that are used to
 parallelize native code, such C, C++, and Fortran, and are often not
 specific to R itself.  For example, multi-threaded processing is an
-efficient parallelization technique, which operates at the core of the
+efficient parallelization technique which operates at the core of the
 operating system and the CPU and allows for updating shared memory in
 parallel and more, that is not available at the R level.  In contrast,
 parallelization at the R level takes place at a higher-level, which we
@@ -55,7 +55,7 @@ type of parallelization.
 %
 In addition to parallel computations, there are also efforts in R for
 working with \emph{parallel data structures}, e.g.,
-\CRANpkg{sparklyr}~\citep{CRAN:sparklyr}, and the
+\CRANpkg{sparklyr}~\citep{CRAN:sparklyr} and the
 \dfn{Programming with Big Data in R} (pbdR) project~\citep{Schmidt2017}.
 By pre-distributing data and storing them on, or near, parallel
 workers, the overhead from passing data on-the-fly in parallel
@@ -208,8 +208,8 @@ addresses the above problem of having to decide on the parallel design
 early on by letting the end-user - not the developer - ``register''
 what type of parallel backend (``foreach adaptor'') to use when
 calling \code{foreach()}. For example, with
-\CRANpkg{doMC}~\citep{CRAN:doMC} one can register a multicore cluster and
-with \CRANpkg{doParallel}~\citep{CRAN:doParallel} one can register any
+\CRANpkg{doMC}~\citep{CRAN:doMC}, one can register a multicore cluster, and
+with \CRANpkg{doParallel}~\citep{CRAN:doParallel}, one can register any
 type of ``snow'' cluster as in:
 %
 \begin{example}
@@ -233,7 +233,7 @@ focus on \emph{what} to parallelize, which is a design pattern of
 great value with important implications on how to design, write, and
 maintain parallel code. The large uptake of \pkg{foreach} since it was
 first released supports this. As of April 2021, \pkg{foreach} is among
-the top-1.1\% most downloaded package on CRAN and there are nearly 800
+the top-1.1\% most downloaded package on CRAN, and there are nearly 800
 packages on CRAN and Bioconductor that directly depend on it.  Another
 advantage of the separation between the map-reduce frontend API and
 parallel backend (foreach adaptors) is that new types of parallel
@@ -261,7 +261,7 @@ background.  Thus, a developer that only uses \pkg{doMC} might forget
 to test their code with \pkg{doParallel}, where it may fail.  Having
 said this, the \pkg{foreach} package does provide a rudimentary
 mechanism for automatically identifying and exporting global
-variables.  However, it has some limitations that in practice require
+variables.  However, it has some limitations, that, in practice, require
 the developer to explicitly specify globals to make sure their code
 works with more backends.  Some adaptors provide additional options of
 their own that are specified as arguments to \code{foreach()}. If the
@@ -317,7 +317,7 @@ v <- expr
 \end{example}
 Although it is effectively a single operator, there are two steps in
 an assignment: first (i) R evaluates the \dfn{expression} on the
-right-hand side (RHS) and then (ii) it assigns the resulting value to
+right-hand side (RHS), and then (ii) it assigns the resulting value to
 the \dfn{variable} on the left-hand side (LHS).  We can think of
 the \dfn{Future API} as giving us full access to these two steps by
 rewriting the assignment construct as:
@@ -444,7 +444,7 @@ is something we will return to later.
     \code{lapply()} is used to call \code{slow\_fcn()} ten times -
     once per element in \code{xs}.  By calling it via \code{future()},
     each call is distributed out to one of four workers.  If all
-    workers are busy, the next future in turn will wait for a worker
+    workers are busy, the next future, in turn, will wait for a worker
     to become available.  The results of all futures are collected at
     the end.  Any output, warnings, and errors produced on the workers
     are relayed as-is back on the main R session.  The four workers
@@ -461,7 +461,7 @@ is something we will return to later.
 
 Continuing, we can generalize the above to
 calculate \code{slow\_fcn()} on each of the element in \code{xs} via
-futures. For this we can use a regular for-loop to create each of
+futures. For this, we can use a regular for-loop to create each of
 the \code{length(xs)} futures:
 \begin{example}
 xs <- 1:10
@@ -481,7 +481,7 @@ for lists and other types of containers.}:
 vs <- lapply(fs, value)
 \end{example}
 %
-Alternatively to using a for-loop, we can parallelize
+Alternatively, to using a for-loop, we can parallelize
 using \code{lapply()}:
 \begin{example}
 xs <- 1:10
@@ -490,7 +490,7 @@ fs <- lapply(xs, function(x) {
 })
 \end{example}
 %
-This is illustrated in Figure~\ref{figure:future-4workers} where four
+This is illustrated in Figure~\ref{figure:future-4workers}, where four
 background workers created by \code{plan(multisession, workers = 4)}
 is used to resolve the futures.
 %
@@ -525,7 +525,7 @@ In summary, the three constructs of the \dfn{Future API} provide
 R expressions in parallel, which in turn may be used to construct
 higher-level map-reduce functions for parallel processing.  Additional
 core features of futures that are useful, or even essential, for
-parallel processing, are presented next.
+parallel processing are presented next.
 
 
 \subsection{Exception handling}
@@ -580,7 +580,7 @@ each time \code{value()} is called. Common conditions relayed this way
 are \dfn{message}s and \dfn{warning}s as generated by \code{message()}
 and \code{warning()}.  The relaying of errors was discussed in the
 previous section.  Relaying of standard output and conditions respects
-the order they were captured except that all of the standard output is
+the order they were captured, except that all of the standard output is
 relayed before conditions are relayed in the order they were
 signaled. For example,
 %
@@ -852,7 +852,7 @@ package hierarchy is the risk of overloading the CPU cores due to
 nested parallelism. For instance, assume that package \pkg{PkgA} calls
 \code{PkgB::estimate()} in parallel using all $N$ cores on the
 current machine. Initially, the \code{estimate()} function was
-implemented to run sequentially, but, in a recent \pkg{PkgB} release,
+implemented to run sequentially, but in a recent \pkg{PkgB} release,
 it was updated to parallelize internally using all $N$ cores.  Without
 built-in protection, this update now risks running $N^2$ parallel
 workers when \pkg{PkgA} is used, possibly without the awareness of
@@ -977,7 +977,7 @@ it does not rely on socket connections, which on MS Windows may
 require administrative rights on the machine's firewall in order to
 allow the R process to communicate on certain ports. Moreover, on
 machines with a large number of cores, PSOCK clusters are limited to
-125 parallel workers, because that is the maximum number of
+125 parallel workers because that is the maximum number of
 connections R can have open simultaneously.}, orchestrated by
 the \CRANpkg{callr}~\citep{CRAN:callr} package, e.g.,
 \begin{example}
@@ -1047,7 +1047,7 @@ validates that globals and packages are identified correctly.
 
 Third, a suite of \dfn{Future API conformance tests} available in the
 \CRANpkg{future.tests} package~\citep{CRAN:future.tests} validates the
-correctness of all future backends.  Any new future backend developed,
+correctness of all future backends.  Any new future backend developed
 must pass these tests to comply with the \dfn{Future API}.  By
 conforming to this API, the end-user can trust that the backend will
 produce the same correct and reproducible results as any other
@@ -1096,7 +1096,7 @@ ecosystem at large.
 \subsection{Known limitations}
 \label{known-limitations}
 
-When saving an R object to file, or sending it to a parallel worker, R
+When saving an R object to file or sending it to a parallel worker, R
 uses a built-in technique called \dfn{serialization}, which allows a
 complex object structure to be sent as a stream of bytes to its
 destination, so it later can be reconstructed
@@ -1174,8 +1174,8 @@ distributed out to multiple computers (with access to the same file
 system), for instance, via a job scheduler, rather than being processed
 in parallel on the local machine.
 
-Besides the overhead added by the parallel backend, each future
-regardless of backend has a baseline overhead.  Specifically, there is
+Besides the overhead added by the parallel backend, each future,
+regardless of backend, has a baseline overhead.  Specifically, there is
 a small overhead from the static-code inspection used to identify
 global variables, from exception handling needed to capture and relay
 errors, and from capturing and relaying standard output and
@@ -1216,10 +1216,10 @@ lowers the threshold for implementing new backends, but also results
 in a consistent behavior throughout the future ecosystem, something
 none of the other parallel solutions provide.  This benefits the
 developer because they can focus on what to parallelize rather than
-how and where. It also benefits the end-user who will have more
+how and where. It also benefits the end-user, who will have more
 alternatives to how and where parallelization will take place.  For
 instance, the developer might have local parallelization in mind during
-the development phase due to their work-environment constraints
+the development phase due to their work-environment constraints,
 whereas the end-user might be interested in parallelizing out to a
 cloud compute service.  One may say that code using futures scales far
 without the developer's attention.  Moreover, code using futures for
@@ -1231,11 +1231,11 @@ end-users and developers no longer need to rely on other package
 maintainers to update their code to take advantage of new types of
 computational resources; updates that otherwise require adding another
 argument and conditional statement.  One example of this
-was \pkg{future.batchtools}' predecessor \CRANpkg{future.BatchJobs}
+was \pkg{future.batchtools}' predecessor, \CRANpkg{future.BatchJobs}
 (legacy, CRAN, archived), which was straightforward to implement on
 top of \CRANpkg{BatchJobs}~\citep{Bischl_etal_2015} as soon as
 the \dfn{Future API} was available.  With zero modifications, code
-that previously only parallelized on the local computer, could
+that previously only parallelized on the local computer could
 suddenly parallelize across thousands of cores on high-performance
 compute (HPC) clusters via the job scheduler.  All it took was to
 change the \code{plan()}.
@@ -1290,7 +1290,7 @@ especially when attempting to support multiple variants.  In contrast,
 when using futures, the cost of developing, testing, and maintaining
 parallel code is lower - often not much more than maintaining
 sequential code.  This is possible because of the simplicity of the
-\dfn{Future API}, and the fact that the orchestration of futures is
+\dfn{Future API} and the fact that the orchestration of futures is
 predominantly done by the \pkg{future} package.  Therefore, by
 implementing rigorous tests for the future framework and the different
 backend packages, the need for performing complementary tests in
@@ -1303,7 +1303,7 @@ The built-in protection against nested parallelism by mistake, and the
 agility of system settings of \code{availableCores()}, makes parallel
 code that uses futures to play nicely on multi-tenant systems.  It
 respects all known R options and environment variables that specify,
-or otherwise, limit the number of parallel workers allowed.
+or otherwise limit the number of parallel workers allowed.
 See \code{help("availableCores",\,package\,=\,"parallelly")} for
 details.  In contrast, it is, unfortunately, very common to find
 parallel code that uses \code{parallel::detectCores()} as the default
@@ -1324,7 +1324,7 @@ The \pkg{future} package was released on CRAN in 2015. The uptake has
 grown steadily ever since.  As of April 2021, \pkg{future} is among
 the top-1.1\% most downloaded package on CRAN\footnote{The ranks are
 robust estimates based on the average median weekly download counts
-from the RStudio CRAN mirror during four weeks.} and there are 167
+from the RStudio CRAN mirror during four weeks.}, and there are 167
 packages on CRAN and Bioconductor that directly depend on it.  For
 map-reduce parallelization packages \pkg{future.apply} (top-2.5\% most
 downloaded) and \pkg{furrr} (top-1.6\%), the corresponding number of
@@ -1481,19 +1481,19 @@ indirectly add support for serializing futures themselves, which is
 only partially supported in the current implementation.  Being able to
 serialize futures opens up for further possibilities such as saving
 futures to be processed at a later time, in another context, or to
-transfer them to a job queue that in turn distributes them to
+transfer them to a job queue that, in turn, distributes them to
 appropriate compute resources.
 
 The problem of not being able to export all types of objects as-is in
 parallel processing can be a blocker.  It turns out that for a subset
-of these we could use \dfn{marshaling} to encode them before
+of these, we could use \dfn{marshaling} to encode them before
 serializing them such that a working clone can be reconstructed after
 unserializing and \dfn{unmarshaling}.  As an example, a read-only file
 connection can marshaled by recording its filename and file position
 so that the parallel worker could open its own read-only connection
 for the same file at the same position.  Marshaling is a rarely used
 concept in R, possibly because there is no standard convention for
-package developers to rely on. Ideally such a mechanism would allow
+package developers to rely on. Ideally, such a mechanism would allow
 package developers to register custom \code{marshal()}
 and \code{unmarshal()} methods for their data types, making them
 automatically applicable in parallelization without prior knowledge of
@@ -1528,7 +1528,7 @@ closely, which allow developers to stay with their favorite coding
 style also for their parallel needs.  The future framework is designed
 so that the developer does not have to worry about common, critical
 tasks such as exporting globals to workers, using proper parallel RNG,
-and taking care of output, messages, warnings and errors.  This design
+and taking care of output, messages, warnings, and errors.  This design
 lowers the barriers to re-implement existing algorithms and methods in
 parallel while avoiding to increase the maintenance burden.  When
 using futures, the end-user controls which parallel backend is used,
