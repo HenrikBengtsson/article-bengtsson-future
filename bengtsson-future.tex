@@ -339,7 +339,7 @@ us to perform other tasks in-between the step that evaluates the
 expression and the step that assigns its value to the target variable.
 %
 Here is an example that creates a future that calculates
-\code{slow\_fcn(x)} with \code{x} being \code{1}, then re-assigns
+\code{slow\_fcn(x)} with \code{x} being \code{1}, then reassigns
 a different value to \code{x}, and finally gets the value of the
 future expression:
 \begin{example}
@@ -354,7 +354,7 @@ By definition, a future consists of an R expression and any required
 objects as they were when the future was created. Above, the recorded
 objects are the function \code{slow\_fcn()} and the variable \code{x}
 with value \code{1}.  This is why the value of the future is
-unaffected by \code{x} getting re-assigned a new value after the
+unaffected by \code{x} getting reassigned a new value after the
 future is created but before the value is collected.
 
 We have yet to explain how futures are resolved, that is, how the
@@ -503,7 +503,7 @@ future is relatively large compared to the evaluation time. This
 overhead can be mitigated by processing elements in chunks, something
 that requires more complex code than what is shown in these examples.}
 alternatives to \code{mclapply()}, \code{parLapply()}, and
-\code{foreach()}.  Indeed, we could re-implemented these
+\code{foreach()}.  Indeed, we could reimplemented these
 \pkg{parallel} and \pkg{foreach} functions using the \dfn{Future API}.
 
 The \code{resolved()} function queries, in a non-blocking way, whether
@@ -1031,7 +1031,7 @@ testing are performed.
 First, all the essential core packages part of the future framework,
 \pkg{future}, \pkg{parallelly}, \pkg{globals}, and \pkg{listenv},
 implement a rich set of package tests.  These are validated regularly
-across the wide-range of operating systems (Linux, Solaris, macOS, and
+across the widerange of operating systems (Linux, Solaris, macOS, and
 MS Windows) and R versions available on CRAN, on continuous
 integration (CI) services (GitHub Actions, Travis CI, and AppVeyor
 CI), an on R-hub.
@@ -1205,7 +1205,7 @@ end-users to choose a proper backend.
 The \dfn{Future API} is designed to unify parallel processing in R at
 the lowest possible level.  It provides a standard for building
 richer, higher-level parallel frontends without having to worry about
-and re-implement common, critical tasks such as identifying global
+and reimplement common, critical tasks such as identifying global
 variables and packages, parallel RNG, and relaying of output and
 conditions - cumbersome tasks that are often essential to parallel
 processing.
@@ -1413,7 +1413,7 @@ types of map-reduce APIs on top of futures.
 
 Having said this, in a longer perspective, it might be possible to
 remove the need for these future-based map-reduce APIs, which
-essentially are thin wrappers ported from their counter-part
+essentially are thin wrappers ported from their counterpart
 map-reduce APIs.  This would require internal refactoring of the core
 future framework, but it can likely be done while preserving full
 backward compatibility with the current \dfn{Future API}.
@@ -1456,7 +1456,7 @@ vs <- value(fs)
 We can mitigate the verbosity in the setup of futures with a helper
 function or syntax sugar.  More importantly, this would making it
 possible to use futures in map-reduce APIs without the need for a
-counter part parallel implementation.  It would also lower the
+counterpart parallel implementation.  It would also lower the
 threshold further for adding a thin layer of support for
 futures \emph{within} existing map-reduce APIs, especially since the
 design of the future framework keeps the added maintenance burden to a
@@ -1519,17 +1519,17 @@ All the above is on the roadmap for the future framework.
 
 \section{Summary}
 
-The \pkg{future} package is a light-weight R package that provides an
+The \pkg{future} package is a lightweight R package that provides an
 alternative approach for parallel processing in R.  It implements
 the \dfn{Future API}, which comprise three basic functions, from which
 richer, higher-level APIs for parallel processing can be constructed.
-Several of these higher-level APIs mimic counter part map-reduce APIs
+Several of these higher-level APIs mimic counterpart map-reduce APIs
 closely, which allow developers to stay with their favorite coding
 style also for their parallel needs.  The future framework is designed
 so that the developer does not have to worry about common, critical
 tasks such as exporting globals to workers, using proper parallel RNG,
 and taking care of output, messages, warnings, and errors.  This design
-lowers the barriers to re-implement existing algorithms and methods in
+lowers the barriers to reimplement existing algorithms and methods in
 parallel while avoiding to increase the maintenance burden.  When
 using futures, the end-user controls which parallel backend is used,
 while the developer controls what to parallelize.  This is possible
