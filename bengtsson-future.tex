@@ -852,7 +852,7 @@ package hierarchy is the risk of overloading the CPU cores due to
 nested parallelism. For instance, assume that package \pkg{PkgA} calls
 \code{PkgB::estimate()} in parallel using all $N$ cores on the
 current machine. Initially, the \code{estimate()} function was
-implemented to run sequentially, but in a recent \pkg{PkgB} release,
+implemented to run sequentially, but, in a recent \pkg{PkgB} release,
 it was updated to parallelize internally using all $N$ cores.  Without
 built-in protection, this update now risks running $N^2$ parallel
 workers when \pkg{PkgA} is used, possibly without the awareness of
@@ -1280,7 +1280,7 @@ parallelize code is to use multiple cores on the local machine.
 Because it is less common to have access to multiple machines, this
 often prevents developers from considering any other types of
 parallelization, with the risk of locking in end-users with other
-types of resources to only use a single machine.  The chance for a
+types of resources to only use a single machine.  Hence, the chance for a
 package to support multi-host parallelization, including in the cloud
 and HPC environments, increases when using futures.
 
@@ -1525,7 +1525,7 @@ the \dfn{Future API}, which comprises three basic functions, from which
 richer, higher-level APIs for parallel processing can be constructed.
 Several of these higher-level APIs mimic counterpart map-reduce APIs
 closely, allowing developers to stay with their favorite coding
-style also for their parallel needs.  The future framework is designed
+style for their parallel needs.  The future framework is designed
 so that the developer does not have to worry about common, critical
 tasks such as exporting globals to workers, using proper parallel RNG,
 and taking care of output, messages, warnings, and errors.  This design
