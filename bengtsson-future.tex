@@ -48,7 +48,7 @@ parallelize native code, such C, C++, and Fortran, and are often not
 specific to R itself.  For example, multi-threaded processing is an
 efficient parallelization technique which operates at the core of the
 operating system and the CPU and allows for updating shared memory in
-parallel and more, that is not available at the R level.  In contrast,
+parallel and more, which is not available at the R level.  In contrast,
 parallelization at the R level takes place at a higher-level, which we
 refer to as \dfn{multi-process} parallelization and which is a coarser
 type of parallelization.
@@ -153,7 +153,7 @@ to use. Unfortunately, this is not always possible, e.g., R package
 developers rarely know who the end-users are and what compute
 resources they have. Regardless, developers who wish to support
 parallel processing still face the problem of deciding which parallel
-framework to target, a decision which often has to be done early in
+framework to target, a decision that often has to be done early in
 the development cycle. This means deciding on what \emph{type of
 parallelism} to support, e.g., forked processing via \code{mclapply()}
 or SOCK clusters via \code{parLapply()}. This decision is critical
