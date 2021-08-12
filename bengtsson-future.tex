@@ -54,7 +54,7 @@ refer to as \dfn{multi-process} parallelization and which is a coarser
 type of parallelization.
 %
 In addition to parallel computations, there are also efforts in R for
-working with \emph{parallel data structures}, e.g.
+working with \emph{parallel data structures}, e.g.,
 \CRANpkg{sparklyr}~\citep{CRAN:sparklyr}, and the
 \dfn{Programming with Big Data in R} (pbdR) project~\citep{Schmidt2017}.
 By pre-distributing data and storing them on, or near, parallel
@@ -149,13 +149,13 @@ increases the barrier to use them.
 
 Using either the \code{mclapply()} or the \code{parLapply()} approach
 works well when developers and end-users can agree on which framework
-to use. Unfortunately, this is not always possible, e.g.\ R package
+to use. Unfortunately, this is not always possible, e.g., R package
 developers rarely know who the end-users are and what compute
 resources they have. Regardless, developers who wish to support
 parallel processing still face the problem of deciding which parallel
 framework to target, a decision which often has to be done early in
 the development cycle. This means deciding on what \emph{type of
-parallelism} to support, e.g.\ forked processing via \code{mclapply()}
+parallelism} to support, e.g., forked processing via \code{mclapply()}
 or SOCK clusters via \code{parLapply()}. This decision is critical
 because it limits the end-user's options, and any change, later on,
 might be expensive because of, for instance, having to rewrite and
@@ -164,7 +164,7 @@ multiple parallel backends has to implement support for each of them
 individually and provide the end-user with a mechanism to choose
 between them. This approach often results in unwieldy,
 hard-to-maintain code of conditional statements with low test
-coverage, e.g.
+coverage, e.g.,
 \begin{example}
 if (parallel == "fork") {
   ...
@@ -184,13 +184,13 @@ Functions like \code{parLapply()} partly address the problem of
 supporting multiple parallelization frameworks because they support
 various types of parallel cluster backends referred to as ``snow''
 clusters (short for \dfn{Simple Network of Workstations} and from
-their origin in the \pkg{snow} package), e.g.
+their origin in the \pkg{snow} package), e.g.,
 \code{workers\,<-\,makeCluster(4, type\,=\,"FORK")} sets up a cluster that
 parallelizes using forked processing, and
 \code{workers\,<-\,makeCluster(4, type\,=\,"MPI")} sets up a cluster that
 parallelizes via a Message Passing Interface (MPI) framework.  If a
 developer uses \code{parLapply()}, they could write their code such
-that the end-user can specify what type of snow cluster to use, e.g.\
+that the end-user can specify what type of snow cluster to use, e.g.,
 by respecting what the end-user set
 via \code{setDefaultCluster(workers)}.  This provides the end-user
 with more, although in practice limited, options on how and where to
@@ -240,7 +240,7 @@ parallel backend (foreach adaptors) is that new types of parallel
 backends can be introduced without the need to make updates to
 the \pkg{foreach} package. This has led to third-party developers have
 contributed additional foreach adaptors,
-e.g.\ \CRANpkg{doMPI}~\citep{CRAN:doMPI} and
+e.g., \CRANpkg{doMPI}~\citep{CRAN:doMPI} and
 \CRANpkg{doRedis}~\citep{CRAN:doRedis}.
 
 Unfortunately, there is no \emph{exact} specification on what a
@@ -516,7 +516,7 @@ from the overhead of collecting values from futures - values that may
 contain large objects and are collected from remote machines over a
 network with limited bandwidth.  As explained further below,
 collecting the value of futures as soon as possible will also lower
-the latency of the relay of output and conditions (e.g.\ warnings and
+the latency of the relay of output and conditions (e.g., warnings and
 errors) captured by each future while they evaluate the future
 expressions.
 
@@ -565,12 +565,12 @@ v <- tryCatch({
 Errors due to extraordinary circumstances, such as terminated R
 workers and failed communication, are of a different kind than above
 evaluation errors.  Because of this, they are signaled as errors of
-class \dfn{FutureError} so they can be handled specifically, e.g.\ by
+class \dfn{FutureError} so they can be handled specifically, e.g., by
 restarting R workers or relaunching the failed future elsewhere
 (Section `Future work').
 
 
-\subsection{Relaying of standard output and conditions (e.g.\ messages and warnings)}
+\subsection{Relaying of standard output and conditions (e.g., messages and warnings)}
 \label{relaying-of-standard-output-and-conditions-e.g.messages-and-warnings}
 
 Futures capture the standard output (\dfn{stdout}) and then relay it
@@ -603,7 +603,7 @@ v <- value(f)
 \end{example}
 %
 Standard techniques can be used to capture the relayed standard
-output, e.g.
+output, e.g.,
 \begin{example}
 stdout <- capture.output({
   v <- value(f)
@@ -629,7 +629,7 @@ missing values or vector recycling. Commonly used poor-man debugging,
 where temporary debug messages are injected into the code, is also
 possible because of this built-in relay mechanism.  Imagine a logging
 framework that leverages R's condition framework to signal different
-levels of log events and then captures and reports, e.g. to the
+levels of log events and then captures and reports, e.g., to the
 terminal or to file.  It will work out of the box when parallelizing
 with futures.
 
@@ -657,7 +657,7 @@ future has been resolved.
 R\footnote{See \url{https://github.com/HenrikBengtsson/Wishlist-for-R/issues/55}},
 it is not possible to capture the standard error reliably.  Because of
 this, any output to the standard error is silently ignored,
-e.g.\ \code{cat("some~output",\,file\,=\,stderr())}. However, although
+e.g., \code{cat("some~output",\,file\,=\,stderr())}. However, although
 output from \code{message()} is sent to the standard error, it is
 indeed outputted in the main R processes because it is the message
 conditions that are captured and relayed, not the standard error.
@@ -699,7 +699,7 @@ v <- value(f)
 This is because code inspection cannot infer that \code{k} is a needed
 variable.  In such cases, one can guide the future framework to
 identify this missing global by explicitly mentioning in at the top of
-the future expression, e.g.
+the future expression, e.g.,
 \begin{example}
 f <- future({
   k
@@ -707,7 +707,7 @@ f <- future({
 })
 \end{example}
 Alternatively, one can specify it via argument \code{globals} when
-creating the future, e.g.
+creating the future, e.g.,
 \begin{example}
 f <- future({
   get("k")
@@ -731,7 +731,7 @@ cause futures to produce errors similar to the one above.
 \label{proper-parallel-random-number-generation-rng}
 
 The ability to produce high-quality random numbers is essential for
-the validity of many statistical analyses, e.g.\ bootstrap,
+the validity of many statistical analyses, e.g., bootstrap,
 permutation tests, and simulation studies. R has functions at its core
 for drawing random numbers from common distributions. This R
 functionality is available also to C and Fortran native code. All draw
@@ -748,7 +748,7 @@ used to set up multiple RNG streams.
 The future ecosystem has built-in support for L'Ecuyer-CMRG at its
 core to make it as easy as possible to produce statistically sound and
 reproducible random numbers regardless of how and where futures are
-resolved, e.g.
+resolved, e.g.,
 \begin{example}
 f <- future(rnorm(3), seed = TRUE)
 value(f)
@@ -767,7 +767,7 @@ to disable this check or to escalate the warning to an error via an R
 option.
 %
 All higher-level parallelization APIs that build upon futures must
-adhere to this parallel-RNG design, e.g.\ \CRANpkg{future.apply}
+adhere to this parallel-RNG design, e.g., \CRANpkg{future.apply}
 and \CRANpkg{furrr}.
 
 
@@ -863,11 +863,11 @@ parallelism. This works by configuring each worker to run in
 sequential mode unless nested parallelism is explicitly configured.
 This is achieved by setting options and environment variables that are
 known to control parallelism in R,
-e.g.\ \code{options(mc.cores\,=\,1)}.  Because of this, if \pkg{PkgA}
+e.g., \code{options(mc.cores\,=\,1)}.  Because of this, if \pkg{PkgA}
 and \pkg{PkgB} parallelize using the future framework, the nested
 parallelism above will run with a total of $N$ cores, not $N^2$ cores.
 This will also be true for non-future code that respects such
-settings, e.g.\ when \pkg{PkgB} uses \code{parallel::mclapply()} with
+settings, e.g., when \pkg{PkgB} uses \code{parallel::mclapply()} with
 the default \code{mc.cores} argument.
 
 Nested parallelism can be configured by the end-user
@@ -979,7 +979,7 @@ allow the R process to communicate on certain ports. Moreover, on
 machines with a large number of cores, PSOCK clusters are limited to
 125 parallel workers, because that is the maximum number of
 connections R can have open simultaneously.}, orchestrated by
-the \CRANpkg{callr}~\citep{CRAN:callr} package, e.g.
+the \CRANpkg{callr}~\citep{CRAN:callr} package, e.g.,
 \begin{example}
 plan(future.callr::callr)  ## defaults to workers = availableCores()
 plan(future.callr::callr, workers = 4)
@@ -990,7 +990,7 @@ implements several types of backends on top of the
 \CRANpkg{batchtools}~\citep{Lang_etal_2017} package.  Most notably, it
 provides backends that resolve futures distributed on high-performance
 compute (HPC) environments by submitting the futures as jobs to a job
-scheduler, e.g.\ Slurm, SGE, and Torque/PBS:
+scheduler, e.g., Slurm, SGE, and Torque/PBS:
 \begin{example}
 plan(future.batchtools::batchtools_slurm)
 plan(future.batchtools::batchtools_sge)
@@ -1108,7 +1108,7 @@ parallel workers and how results are returned.
 
 However, some types of objects are by design bound to the R session
 where they are created and cannot be used as-is in other R processes.
-One example is R \dfn{connection}s, e.g.
+One example is R \dfn{connection}s, e.g.,
 \begin{example}
 con <- file("/path/to/file", open = "wb")
 str(con)
@@ -1123,7 +1123,7 @@ wrong file.  These constraints apply to all types of parallelization
 frameworks in R, including the future framework.
 
 There are other types of objects that cannot be transferred as-is to
-external processes, many from popular third-party packages, e.g.\
+external processes, many from popular third-party packages, e.g.,
 database connections of the \CRANpkg{DBI} package, XML documents of
 the \CRANpkg{xml2} package, STAN models of the \CRANpkg{stan} package,
 and many more\footnote{See \pkg{future} package vignette
@@ -1133,7 +1133,7 @@ pointer}, which is used for referencing an internal low-level
 object. This suggests that the object is bound to the current process
 and its lifespan.  Unfortunately, it is not a sufficient indicator,
 because some objects with external pointers can be exported,
-e.g.\ \CRANpkg{data.table} objects.  This makes it complicated to
+e.g., \CRANpkg{data.table} objects.  This makes it complicated to
 automate the detection of non-exportable objects and protect against
 using them in parallel processing.  The current best practice is to be
 aware of these types of objects and to document new ones when
@@ -1180,12 +1180,12 @@ a small overhead from the static-code inspection used to identify
 global variables, from exception handling needed to capture and relay
 errors, and from capturing and relaying standard output and
 conditions.  Except for the error-handling overhead, these can all be
-avoided via certain \code{future()} arguments, e.g. by manually
+avoided via certain \code{future()} arguments, e.g., by manually
 specifying globals needed and by disabling the relaying of output and
 conditions.
 
 R has several profiling tools that can help identify bottlenecks and
-overhead in computational expensive tasks, e.g. \code{system.time()}
+overhead in computational expensive tasks, e.g., \code{system.time()}
 of the \pkg{base} package,
 \CRANpkg{microbenchmark}~\citep{CRAN:microbenchmark},
 \CRANpkg{bench}~\citep{CRAN:bench},
@@ -1251,11 +1251,11 @@ of how fairly straightforward it is to implement higher-level parallel
 APIs on top of the \dfn{Future API}.  The \pkg{future.apply}
 package~\citep{CRAN:future.apply}, implements futurized variants of
 R's apply functions found in the \pkg{base} package,
-e.g.\ \code{future\_apply()} and \code{future\_lapply()} are plug-in
+e.g., \code{future\_apply()} and \code{future\_lapply()} are plug-in
 replacements for \code{apply()} and \code{lapply()}.  The \pkg{furrr}
 package~\citep{CRAN:furrr} implements futurized variants of the
 different map-reduce functions found in the \CRANpkg{purrr}
-package~\citep{CRAN:purrr}, e.g.\ \code{future\_map()} is as plug-in
+package~\citep{CRAN:purrr}, e.g., \code{future\_map()} is as plug-in
 replacement for \code{map()}.  The \pkg{doFuture} package implements a
 generic \pkg{foreach} adaptor
 for \code{y\,<-\,foreach(...)\,\%dopar\%\,\{\,...\,\}} that we can use
@@ -1355,7 +1355,7 @@ In \citet{HewittBaker_1977}, the authors propose the
 parallel and return the value of 'the first one that finishes'.''  A
 corresponding R construct could be \code{future\_either(...)} that
 evaluates R expressions concurrently via futures and returns the value
-of the first resolved one ignoring the others, e.g.
+of the first resolved one ignoring the others, e.g.,
 \begin{example}
 y <- future_either(
   sort.int(x, method = "shell"),
@@ -1370,7 +1370,7 @@ assumptions about futures being resolved via parallel or distributed
 processing.  One example is where a particular expression can only be
 resolved in a legacy version of R, on another operating system than
 where the main R session runs, or in an environment that meet specific
-requirements, e.g.\ large amounts of memory, fast local disks, or
+requirements, e.g., large amounts of memory, fast local disks, or
 access to a certain genomic database.  Another example of a
 resource-specific backend is the \CRANpkg{civis}
 package~\citep{CRAN:civis}, which uses futures to provide an R client
@@ -1471,10 +1471,10 @@ this, extra care needs to be taken when introducing this feature to
 the future framework.  A related feature request is the possibility
 to \emph{restart} a future that failed due to, for instance, a crashed
 worker or a partial power failure on a compute cluster,
-e.g.\ \code{restart(f)}.  Combined with R's condition handling
+e.g., \code{restart(f)}.  Combined with R's condition handling
 framework, higher-level APIs can then take on the role of retrying to
 resolve failed futures,
-e.g.\ \code{retry(\{\,...\,\},\,times\,=\,3,\,on\,=\,"FutureError")}.
+e.g., \code{retry(\{\,...\,\},\,times\,=\,3,\,on\,=\,"FutureError")}.
 
 Implementing support for suspending and restarting futures will
 indirectly add support for serializing futures themselves, which is
@@ -1511,7 +1511,7 @@ f <- future({ ... }, resources = c("r:3.2.*", "mount:/data", "!fork"))
 could be one way to specify that this future has to be resolved with R
 3.2 on a machine with a \code{/data} mount point and that forked
 parallel processing must not be used.  Some resources may be implicit
-based on exported globals, e.g. a specific file required when
+based on exported globals, e.g., a specific file required when
 exporting a file connection via marshaling.
 
 All the above is on the roadmap for the future framework.
