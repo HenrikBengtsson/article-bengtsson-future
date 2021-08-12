@@ -44,7 +44,7 @@ available to R developers, see \citet{Eddelbuettel2020} and the
 The options for parallelizing \emph{computations} in R can be grouped
 broadly into those that can be used to parallelize R code, such as
 what the \pkg{parallel} package provides, and those that are used to
-parallelize native code, such C, C++, and Fortran, and are often not
+parallelize native code, such as C, C++, and Fortran, and are often not
 specific to R itself.  For example, multi-threaded processing is an
 efficient parallelization technique which operates at the core of the
 operating system and the CPU and allows for updating shared memory in
@@ -452,7 +452,7 @@ is something we will return to later.
     switching to \code{plan(sequential)}, then all futures are
     resolved sequentially in the main R process.
     Only core Future API functions from the \pkg{future} package were
-    used.  Less verbose, map-reduce alternatives are available in
+    used.  Less verbose, map-reduce alternatives are available in the
     high-level future packages such as \pkg{future.apply},
     \pkg{furrr}, and \pkg{doFuture}.}
     \label{figure:future-4workers}
@@ -563,7 +563,7 @@ v <- tryCatch({
 \end{example}
 
 Errors due to extraordinary circumstances, such as terminated R
-workers and failed communication, are of a different kind than above
+workers and failed communication, are of a different kind than the above
 evaluation errors.  Because of this, they are signaled as errors of
 class \dfn{FutureError} so they can be handled specifically, e.g., by
 restarting R workers or relaunching the failed future elsewhere
@@ -1086,7 +1086,7 @@ for identifying globals.  As the maintainer of the future framework, I
 collaborate with the maintainer of the \pkg{foreach} package to
 implement this.}.
 
-Lastly, analogously to above reverse-dependency checks of each new
+Lastly, analogously to the above reverse-dependency checks of each new
 release, CRAN and Bioconductor continuously run checks on all these
 direct, but also indirect, reverse dependencies, which further
 increases the validation of the \dfn{Future API} and the future
@@ -1228,7 +1228,7 @@ may be developed several years from now.
 
 Directly related to the separation of code and backends, is that
 end-users and developers no longer need to rely on other package
-maintainers to update their code to take advantage of new types of
+maintainers to update their code to take advantage of any new types of
 computational resources; updates that otherwise require adding another
 argument and conditional statement.  One example of this
 was \pkg{future.batchtools}' predecessor, \CRANpkg{future.BatchJobs}
@@ -1489,7 +1489,7 @@ parallel processing can be a blocker.  It turns out that for a subset
 of these, we could use \dfn{marshaling} to encode them before
 serializing them such that a working clone can be reconstructed after
 unserializing and \dfn{unmarshaling}.  As an example, a read-only file
-connection can marshaled by recording its filename and file position
+connection can be marshaled by recording its filename and file position
 so that the parallel worker could open its own read-only connection
 for the same file at the same position.  Marshaling is a rarely used
 concept in R, possibly because there is no standard convention for
@@ -1535,7 +1535,7 @@ using futures, the end-user controls which parallel backend is used,
 while the developer controls what to parallelize.  This is possible
 because all future backends have been validated to conform to
 the \dfn{Future API} specifications, ensuring that futures produce the
-same results regardless how and where they are processed.
+same results regardless of how and where they are processed.
 
 
 \section{Acknowledgments}
