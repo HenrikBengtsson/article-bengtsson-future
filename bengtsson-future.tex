@@ -237,8 +237,8 @@ on
 focus on \emph{what} to parallelize, which is a design pattern of
 great value with important implications on how to design, write, and
 maintain parallel code. The large uptake of \pkg{foreach} since it was
-first released supports this. As of April 2021, \pkg{foreach} is among
-the top-1.1\% most downloaded packages on CRAN, and there are nearly 800
+first released supports this. As of November 2021, \pkg{foreach} is among
+the top-1.0\% most downloaded packages on CRAN, and there are nearly 800
 packages on CRAN and Bioconductor that directly depend on it.  Another
 advantage of the separation between the map-reduce frontend API and
 parallel backend (foreach adaptors) is that new types of parallel
@@ -1043,8 +1043,8 @@ CI), and on R-hub.
 
 Second, for each new release, these packages undergo full
 reverse-package dependency checks
-using \pkg{revdepcheck}~\citep{GitHub:revdepcheck}.  As of April 2021,
-the \pkg{future} package is tested against 167 direct reverse-package
+using \pkg{revdepcheck}~\citep{GitHub:revdepcheck}.  As of November 2021,
+the \pkg{future} package is tested against 210 direct reverse-package
 dependencies available on CRAN and Bioconductor.  These checks are
 performed on Linux with both the default settings and when forcing
 tests to use multisession workers (SOCK clusters), which further
@@ -1326,14 +1326,14 @@ performing compute hosts.
 \label{use-of-the-future-framework}
 
 The \pkg{future} package was released on CRAN in 2015. The uptake has
-grown steadily ever since.  As of April 2021, \pkg{future} is among
+grown steadily ever since.  As of November 2021, \pkg{future} is among
 the top-1.1\% most downloaded package on CRAN\footnote{The ranks are
 robust estimates based on the average median weekly download counts
-from the RStudio CRAN mirror during four weeks.}, and there are 167
+from the RStudio CRAN mirror during four weeks.}, and there are 210
 packages on CRAN and Bioconductor that directly depend on it.  For
-map-reduce parallelization packages \pkg{future.apply} (top-2.5\% most
-downloaded) and \pkg{furrr} (top-1.6\%), the corresponding number of
-packages are 73 and 45, respectively.
+map-reduce parallelization packages \pkg{future.apply} (top-1.3\% most
+downloaded) and \pkg{furrr} (top-1.8\%), the corresponding number of
+packages are 87 and 58, respectively.
 
 Besides supporting these traditional parallelization methods, the
 future framework is also used as an infrastructure elsewhere.  For
