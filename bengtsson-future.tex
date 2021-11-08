@@ -100,8 +100,8 @@ y <- lapply(xs, function(x) {
   slow_fcn(x)
 })
 \end{example}
-To run this in parallel using two \emph{forked} parallel processes, we
-do:
+To do the same in parallel using two \emph{forked} parallel processes, we
+can use:
 
 \begin{example}
 library(parallel)
@@ -110,8 +110,8 @@ y <- mclapply(xs, function(x) {
   slow_fcn(x)
 }, mc.cores = 2)
 \end{example}
-Finally, to run this in parallel using two R parallel processes
-running in the \emph{background}, we do:
+Alternatively, to run it in parallel using two R parallel processes
+running in the \emph{background}, we can do:
 
 \begin{example}
 library(parallel)
