@@ -10,7 +10,7 @@ A future is a programming construct designed for concurrent and asynchronous eva
 
 Status: Accepted ([The R Journal](https://journal.r-project.org/archive/2021/RJ-2021-048/index.html))  
 Download: [PDF](https://raw.githubusercontent.com/HenrikBengtsson/article-bengtsson-future/master/release/bengtsson-future.pdf) (latest version; newer that prepublication)  
-Prepublication: [PDF](https://arxiv.org/pdf/2008.00553.pdf) (v3 from 2021-06-12)  
+Prepublication: [PDF](https://arxiv.org/pdf/2008.00553.pdf) (v4 from 2021-11-11)  
 Feedback: https://github.com/HenrikBengtsson/article-bengtsson-future/issues  
 Changelog: [CHANGELOG](https://github.com/HenrikBengtsson/article-bengtsson-future/blob/master/CHANGELOG.md)  
 
